@@ -1,0 +1,34 @@
+#ifndef PLOT_H
+#define PLOT_H
+
+#include "qcustomplot.h"
+
+enum{
+    PLOT_STYLE_LINE,
+    PLOT_STYLE_POINTS,
+    PLOT_STYLE_BARS
+};
+
+
+class Plot : public QCustomPlot
+{
+    Q_OBJECT
+
+private:
+    int style;
+
+public:
+    Plot(QWidget *parent = 0);
+    void addCurve(QVector<double> *,QVector<double> *,QColor,QString name="");
+
+    void setTitle(QString title);
+    void setStyle(int value);
+
+private slots:
+    void slot_sAxies_drag_zoom(QCPAxis *,QCPAxis::SelectablePart,QMouseEvent *);
+    void slot_full_drag_zoom(QMouseEvent *);
+    void slot_selectionChanged();
+
+};
+
+#endif // PLOT_H

@@ -5,9 +5,13 @@
 #include <QPainter>
 #include <QMdiArea>
 #include <QMdiSubWindow>
+#include <QProgressBar>
+#include <QVector>
 
 #include "about.h"
 #include "plotwindow.h"
+#include "options.h"
+#include "settings.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,13 +28,45 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    void createSpectraWin();
+
 public:
     QMdiArea *mdiArea;
+
+    /* about dialog */
     About *about;
+
+    /* plot window */
     PlotWindow *mainPlotWindow;
+    QProgressBar *progressBar;
+
+    /* options class */
+    Options *options;
+
+    /* setting dialog */
+    Settings *settings;
+
+    QVector <double> *data_counts;
+    QVector <double> *data_channels;
+    QVector <double> *data_time;
+
+public:
+    int CodeToChannel(int code);
+    double CodeToWidthChannel(int code);
+
+private slots:
+    void slot_setChannels(int);
+    void slot_setWidthChannel(int);
+    void slot_changesXaxis(bool);
 
 private slots:
     void on_actionAbout_triggered();
+    void on_action_Quit_triggered();
+    void on_actionSpectra_triggered();
+    void on_actionTOF_triggered();
+    void on_actionSettings_triggered();
+
+    void on_pushButtonTOFStart_clicked();
 };
 
 
