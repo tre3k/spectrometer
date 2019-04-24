@@ -38,13 +38,17 @@ private:
     QAction *actionAxis_x_log_scale;
     QMenu *menuAxis_y;
     QAction *actionAxis_y_log_scale;
+    QAction *actionAutoScale;
 
 public:
     void generateElements();
 
 private slots:
     void slot_CloseThis();
-
+    void slot_AxisXLogScale(bool);
+    void slot_AxisYLogScale(bool);
+public slots:
+    void slot_AutoScale();
 
 };
 

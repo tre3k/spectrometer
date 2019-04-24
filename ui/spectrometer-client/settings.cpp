@@ -6,9 +6,21 @@ Settings::Settings(QWidget *parent) :
     ui(new Ui::Settings)
 {
     ui->setupUi(this);
+
+    this->setLayout(ui->mainLayout);
 }
 
 Settings::~Settings()
 {
     delete ui;
+}
+
+void Settings::on_pushButtonClose_clicked()
+{
+    this->close();
+}
+
+void Settings::on_pushButtonOk_clicked()
+{
+
 }

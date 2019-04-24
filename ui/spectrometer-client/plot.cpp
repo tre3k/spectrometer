@@ -27,54 +27,34 @@ Plot::Plot(QWidget *parent) : QCustomPlot(parent)
 }
 
 void Plot::addCurve(QVector<double> *x, QVector<double> *y, QColor color, QString name){
-    //int num = this->graphCount();
     QCPGraph *graph;
     QCPBars *bars;
-
-    /*
-     if(point_line){
-        this->graph(num)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,"gray",color,5));
-        //this->graph(num)->setSelectedPen(QPen(QColor(color),2,Qt::DotLine,Qt::SquareCap,Qt::BevelJoin));
-        this->graph(num)->setPen(QPen(QColor(color),1,Qt::NoPen,Qt::SquareCap,Qt::BevelJoin));
-     }else{
-        //this->graph(num)->setSelectedPen(QPen(QColor(color),2,Qt::SolidLine,Qt::SquareCap,Qt::BevelJoin));
-        this->graph(num)->setPen(QPen(QColor(color),1,Qt::SolidLine,Qt::SquareCap,Qt::BevelJoin));
-     }
-     */
-
-    /*
-    this->graph(num)->setData(*x,*y);
-    this->graph(num)->setName(name);
-
-    this->graph(num)->selectionDecorator()->setPen(QPen(QColor(color),2,Qt::DotLine,Qt::SquareCap,Qt::BevelJoin));
-
-    this->rescaleAxes(true);
-    this->replot();
-    */
 
     switch(style){
     case PLOT_STYLE_LINE:
         graph = this->addGraph();
         graph->setPen(QPen(QColor(color),1,Qt::SolidLine,Qt::SquareCap,Qt::BevelJoin));
         graph->setData(*x,*y);
+        this->rescaleAxes(true);
         break;
     case PLOT_STYLE_POINTS:
         graph = this->addGraph();
         graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,"gray",color,5));
         graph->setPen(QPen(QColor(color),1,Qt::NoPen,Qt::SquareCap,Qt::BevelJoin));
         graph->setData(*x,*y);
+        this->rescaleAxes(true);
         break;
     case PLOT_STYLE_BARS:
         bars = new QCPBars(this->xAxis,this->yAxis);
         bars->setData(*x,*y);
+        this->rescaleAxes(true);
+        if(x->size()!=0) bars->setWidth(0.8*x->at(x->size()-1)/x->size());
         bars->setPen(Qt::NoPen);
         bars->setBrush(QColor(20, 100, 50, 200));
         break;
     }
 
-    this->rescaleAxes(true);
     this->replot();
-
     return;
 }
 

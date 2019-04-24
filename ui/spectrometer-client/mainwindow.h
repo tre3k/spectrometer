@@ -53,6 +53,7 @@ public:
 public:
     int CodeToChannel(int code);
     double CodeToWidthChannel(int code);
+    void buildDataOnPlot();
 
 private slots:
     void slot_setChannels(int);

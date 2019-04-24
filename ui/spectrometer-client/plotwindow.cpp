@@ -46,6 +46,8 @@ void PlotWindow::generateElements(){
     actionChannels_time->setCheckable(true);
     actionChannels_time->setChecked(true);
     menuAxis_x->addAction(actionChannels_time);
+    actionAutoScale = new QAction("Auto scale");
+    menuAxes->addAction(actionAutoScale);
 
 
     /* Set menu bar and widget on layout */
@@ -56,5 +58,39 @@ void PlotWindow::generateElements(){
 
     this->setWidget(centralWidget);
 
-    connect(actionClose,SIGNAL(triggered()),this,SLOT(slot_CloseThis()));
+    connect(actionClose,SIGNAL(triggered()),
+            this,SLOT(slot_CloseThis()));
+    connect(actionAxis_x_log_scale,SIGNAL(triggered(bool)),
+            this,SLOT(slot_AxisXLogScale(bool)));
+    connect(actionAxis_y_log_scale,SIGNAL(triggered(bool)),
+            this,SLOT(slot_AxisYLogScale(bool)));
+    connect(actionAutoScale,SIGNAL(triggered()),
+            this,SLOT(slot_AutoScale()));
+}
+
+void PlotWindow::slot_AxisXLogScale(bool value){
+    if(value){
+        plot->xAxis->setScaleType(QCPAxis::stLogarithmic);
+        plot->xAxis2->setScaleType(QCPAxis::stLogarithmic);
+    }else{
+        plot->xAxis->setScaleType(QCPAxis::stLinear);
+        plot->xAxis2->setScaleType(QCPAxis::stLinear);
+    }
+    plot->replot();
+}
+
+void PlotWindow::slot_AxisYLogScale(bool value){
+    if(value){
+        plot->yAxis->setScaleType(QCPAxis::stLogarithmic);
+        plot->yAxis2->setScaleType(QCPAxis::stLogarithmic);
+    }else{
+        plot->yAxis->setScaleType(QCPAxis::stLinear);
+        plot->yAxis2->setScaleType(QCPAxis::stLinear);
+    }
+    plot->replot();
+}
+
+void PlotWindow::slot_AutoScale(){
+    plot->rescaleAxes(true);
+    plot->replot();
 }
