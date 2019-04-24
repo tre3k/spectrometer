@@ -31,6 +31,10 @@
   <property name="windowTitle">
    <string>About spectrometer UI</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/information.svg</normaloff>:/icons/information.svg</iconset>
+  </property>
   <widget class="QLabel" name="imgLabel">
    <property name="geometry">
     <rect>
@@ -44,7 +48,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/pnpi.svg</pixmap>
+    <pixmap>:/pnpi.svg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

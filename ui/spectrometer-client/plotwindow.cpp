@@ -10,9 +10,6 @@ void PlotWindow::slot_CloseThis(){
 }
 
 void PlotWindow::generateElements(){
-    /* set icon and geometry */
-    //this->setWindowIcon(QIcon(QPixmap(":/icon.png")));
-
     centralWidget = new QWidget(this);
     centralWidget->setLayout(new QVBoxLayout());
 
@@ -23,12 +20,13 @@ void PlotWindow::generateElements(){
     menuBar->addMenu(menuFile);
 
     actionExport = new QAction("&Export");
+    actionExport->setIcon(QIcon(":/icons/share.svg"));
     menuFile->addAction(actionExport);
 
     menuFile->addSeparator();
 
     actionClose = new QAction("&Close");
-    actionClose->setIcon(QIcon(":/cancel.svg"));
+    actionClose->setIcon(QIcon(":/icons/cancel.svg"));
     menuFile->addAction(actionClose);
 
     menuAxes = new QMenu("&Axes");

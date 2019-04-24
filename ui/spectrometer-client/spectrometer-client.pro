@@ -34,7 +34,8 @@ SOURCES += \
     settings.cpp \
     options.cpp \
     mainthread.cpp \
-    functions.cpp
+    functions.cpp \
+    server.cpp
 
 
 HEADERS += \
@@ -46,7 +47,8 @@ HEADERS += \
     settings.h \
     options.h \
     mainthread.h \
-    functions.h
+    functions.h \
+    server.h
 
 
 FORMS += \

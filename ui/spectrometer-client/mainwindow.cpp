@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->setWindowTitle("Spectrometer UI Client");
 
+    ui->dockWidgetAmpl->hide();     //reserve
+
     /* set central Widget as MDIArea */
     mdiArea = new MdiArea();
     this->setCentralWidget(mdiArea);
@@ -42,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBoxWidthChannelTOF->addItem("0.2 μs");
     ui->comboBoxWidthChannelTOF->addItem("0.1 μs");
 
-
     /* init and load options */
     options = new Options();
     ui->comboBoxChannelsTOF->setCurrentIndex(options->channels);
@@ -53,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /* formerid spectra Windows Plot*/
     mainPlotWindow = new PlotWindow();
     mainPlotWindow->setWindowTitle("spectra");
-    mainPlotWindow->setWindowIcon(QIcon(":/graph.svg"));
+    mainPlotWindow->setWindowIcon(QIcon(":/icons/graph.svg"));
     mainPlotWindow->setGeometry(20,20,800,600);
     mainPlotWindow->setMinimumSize(400,300);
     createSpectraWin();
@@ -245,8 +246,8 @@ void MainWindow::on_pushButtonTOFStart_clicked()
     data_channels->clear();
 
     for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
-        data_channels->append((double)i);
-        data_time->append((double)i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
+        data_channels->append(i);
+        data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
     }
 
     threadParameters->data_counts = data_counts;

@@ -38,6 +38,11 @@ private:
         QVector<double> plot_data_y;
     } plotWidgets;
 
+    struct {
+        QFormLayout layout;
+        QLineEdit lineEditURL;
+    } urlWidget;
+
     QColorDialog *colorDialog;
 
 public:
@@ -48,13 +53,14 @@ private slots:
     void slot_recvOptions(Options *);
     void slot_changePlotStyle(int style_code);
     void slot_changePlotColor(QColor color);
+    void slot_pushButtonColor_clicked();
 
 private slots:
     void on_pushButtonClose_clicked();
 
     void on_pushButtonOk_clicked();
 
-    void on_pushButtonColor_clicked();
+
 
 private:
     Ui::Settings *ui;

@@ -1,15 +1,18 @@
 <RCC>
     <qresource prefix="/">
-        <file>icon.png</file>
-        <file>pnpi.svg</file>
-        <file>play.svg</file>
-        <file>stop.svg</file>
-        <file>graph.svg</file>
-        <file>settings.svg</file>
-        <file>connection.svg</file>
-        <file>alarm-clock.svg</file>
-        <file>error.svg</file>
-        <file>warning.svg</file>
-        <file>cancel.svg</file>
+        <file>icons/information.svg</file>
+        <file>icons/alarm-clock.svg</file>
+        <file>icons/cancel.svg</file>
+        <file>icons/connection.svg</file>
+        <file>icons/error.svg</file>
+        <file>icons/graph.svg</file>
+        <file>icons/icon.png</file>
+        <file>icons/play.svg</file>
+        <file>icons/pnpi.svg</file>
+        <file>icons/question.svg</file>
+        <file>icons/settings.svg</file>
+        <file>icons/share.svg</file>
+        <file>icons/stop.svg</file>
+        <file>icons/warning.svg</file>
     </qresource>
 </RCC>

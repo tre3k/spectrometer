@@ -14,6 +14,7 @@
 #include "settings.h"
 #include "mainthread.h"
 #include "functions.h"
+#include "server.h"
 
 namespace Ui {
 class MainWindow;

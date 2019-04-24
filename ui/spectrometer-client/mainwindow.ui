@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
+    <normaloff>:/icons/icon.png</normaloff>:/icons/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
@@ -77,6 +77,7 @@
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
    <addaction name="actionSpectra"/>
+   <addaction name="actionTOF"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidgetTOF">
@@ -102,7 +103,7 @@
        <x>10</x>
        <y>10</y>
        <width>281</width>
-       <height>521</height>
+       <height>211</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayoutTOF">
@@ -129,14 +130,14 @@
       <item row="1" column="1">
        <widget class="QComboBox" name="comboBoxWidthChannelTOF"/>
       </item>
-      <item row="2" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>Cycles:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="3" column="1">
        <widget class="QSpinBox" name="spinBoxCyclesTOF">
         <property name="suffix">
          <string/>
@@ -152,14 +153,37 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Delay:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxDelay">
+        <property name="suffix">
+         <string> ms</string>
+        </property>
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Time of cycle:</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="1">
        <widget class="QDoubleSpinBox" name="doubleSpinBoxTimeOfCycleTOF">
         <property name="prefix">
          <string/>
@@ -178,7 +202,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="pushButtonTOFStart">
@@ -187,7 +211,7 @@
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
-            <normaloff>:/play.svg</normaloff>:/play.svg</iconset>
+            <normaloff>:/icons/play.svg</normaloff>:/icons/play.svg</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -207,7 +231,7 @@
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
-            <normaloff>:/stop.svg</normaloff>:/stop.svg</iconset>
+            <normaloff>:/icons/stop.svg</normaloff>:/icons/stop.svg</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -226,12 +250,29 @@
     </widget>
    </widget>
   </widget>
+  <widget class="QDockWidget" name="dockWidgetAmpl">
+   <property name="windowTitle">
+    <string>Ampl</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents"/>
+  </widget>
   <action name="actionDocumentation">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/question.svg</normaloff>:/icons/question.svg</iconset>
+   </property>
    <property name="text">
     <string>Documentation</string>
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/information.svg</normaloff>:/icons/information.svg</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
@@ -239,7 +280,7 @@
   <action name="actionSettings">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/settings.svg</normaloff>:/settings.svg</iconset>
+     <normaloff>:/icons/settings.svg</normaloff>:/icons/settings.svg</iconset>
    </property>
    <property name="text">
     <string>Settings</string>
@@ -248,7 +289,7 @@
   <action name="action_Quit">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/cancel.svg</normaloff>:/cancel.svg</iconset>
+     <normaloff>:/icons/cancel.svg</normaloff>:/icons/cancel.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
@@ -257,7 +298,7 @@
   <action name="actionSpectra">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/graph.svg</normaloff>:/graph.svg</iconset>
+     <normaloff>:/icons/graph.svg</normaloff>:/icons/graph.svg</iconset>
    </property>
    <property name="text">
     <string>Show &amp;spectra</string>
@@ -269,16 +310,19 @@
   <action name="actionTOF">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/alarm-clock.svg</normaloff>:/alarm-clock.svg</iconset>
+     <normaloff>:/icons/alarm-clock.svg</normaloff>:/icons/alarm-clock.svg</iconset>
    </property>
    <property name="text">
     <string>Show &amp;TOF</string>
+   </property>
+   <property name="toolTip">
+    <string>TOF (Time of flight)</string>
    </property>
   </action>
   <action name="actionConnect">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/connection.svg</normaloff>:/connection.svg</iconset>
+     <normaloff>:/icons/connection.svg</normaloff>:/icons/connection.svg</iconset>
    </property>
    <property name="text">
     <string>Connect</string>

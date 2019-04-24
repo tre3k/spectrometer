@@ -6,6 +6,7 @@
 #include <QVector>
 
 #include "functions.h"
+#include "server.h"
 
 
 struct ThreadParameters{
