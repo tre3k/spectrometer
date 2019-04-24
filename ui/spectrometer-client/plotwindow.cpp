@@ -28,6 +28,7 @@ void PlotWindow::generateElements(){
     menuFile->addSeparator();
 
     actionClose = new QAction("&Close");
+    actionClose->setIcon(QIcon(":/cancel.svg"));
     menuFile->addAction(actionClose);
 
     menuAxes = new QMenu("&Axes");

@@ -246,6 +246,10 @@
    </property>
   </action>
   <action name="action_Quit">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/cancel.svg</normaloff>:/cancel.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;Quit</string>
    </property>
@@ -263,6 +267,10 @@
    </property>
   </action>
   <action name="actionTOF">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/alarm-clock.svg</normaloff>:/alarm-clock.svg</iconset>
+   </property>
    <property name="text">
     <string>Show &amp;TOF</string>
    </property>

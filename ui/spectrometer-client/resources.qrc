@@ -7,5 +7,9 @@
         <file>graph.svg</file>
         <file>settings.svg</file>
         <file>connection.svg</file>
+        <file>alarm-clock.svg</file>
+        <file>error.svg</file>
+        <file>warning.svg</file>
+        <file>cancel.svg</file>
     </qresource>
 </RCC>
