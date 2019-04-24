@@ -19,9 +19,24 @@ void PlotWindow::generateElements(){
     menuFile = new QMenu("&File");
     menuBar->addMenu(menuFile);
 
-    actionExport = new QAction("&Export");
-    actionExport->setIcon(QIcon(":/icons/share.svg"));
-    menuFile->addAction(actionExport);
+    menuExport = new QMenu("&Export");
+    menuExport->setIcon(QIcon(":/icons/share.svg"));
+    menuFile->addMenu(menuExport);
+    actionExportTXT = new QAction("Export to text file");
+    actionExportTXT->setIcon(QIcon(":/icons/txt.svg"));
+    actionExportPDF = new QAction("Export to PDF");
+    actionExportPDF->setIcon(QIcon(":/icons/pdf.svg"));
+    actionExportJPG = new QAction("Export to image file (JPG)");
+    actionExportJPG->setIcon(QIcon(":/icons/jpg.svg"));
+    actionExportBMP = new QAction("Export to image file (BMP)");
+    actionExportBMP->setIcon(QIcon(":/icons/bmp.svg"));
+    actionExportPNG = new QAction("Export to image file (PNG)");
+    actionExportPNG->setIcon(QIcon(":/icons/png.svg"));
+    menuExport->addAction(actionExportTXT);
+    menuExport->addAction(actionExportPDF);
+    menuExport->addAction(actionExportJPG);
+    menuExport->addAction(actionExportBMP);
+    menuExport->addAction(actionExportPNG);
 
     menuFile->addSeparator();
 
@@ -65,6 +80,16 @@ void PlotWindow::generateElements(){
             this,SLOT(slot_AxisYLogScale(bool)));
     connect(actionAutoScale,SIGNAL(triggered()),
             this,SLOT(slot_AutoScale()));
+    connect(actionExportPDF,SIGNAL(triggered()),
+            this,SLOT(slot_ExportPDF()));
+    connect(actionExportTXT,SIGNAL(triggered()),
+            this,SLOT(slot_ExportTXT()));
+    connect(actionExportPNG,SIGNAL(triggered()),
+            this,SLOT(slot_ExportPNG()));
+    connect(actionExportJPG,SIGNAL(triggered()),
+            this,SLOT(slot_ExportJPG()));
+    connect(actionExportBMP,SIGNAL(triggered()),
+            this,SLOT(slot_ExportBMP()));
 }
 
 void PlotWindow::slot_AxisXLogScale(bool value){
@@ -92,4 +117,48 @@ void PlotWindow::slot_AxisYLogScale(bool value){
 void PlotWindow::slot_AutoScale(){
     plot->rescaleAxes(true);
     plot->replot();
+}
+
+void PlotWindow::slot_ExportTXT(){
+    QString filename = QFileDialog::getSaveFileName(NULL,"Export to text file","","text file (*.txt)");
+    filename = filename.split(QString(".")).at(0);
+    filename += ".txt";
+    QFile f(filename);
+    f.open(QIODevice::WriteOnly);
+    QTextStream txtStream(&f);
+    for(int num=0;num<plot->graphCount();num++){
+        for(int i=0;i<plot->graph(num)->data()->size();i++){
+            txtStream << QString::number(plot->graph(num)->data()->at(i)->key) << "\t"
+                      << QString::number(plot->graph(num)->data()->at(i)->value) << "\n";
+        }
+    }
+    f.close();
+}
+
+void PlotWindow::slot_ExportPDF(){
+    QString filename = QFileDialog::getSaveFileName(NULL,"Export to PDF","","PDF (*.pdf)");
+    filename = filename.split(QString(".")).at(0);
+    filename += ".pdf";
+    plot->savePdf(filename);
+}
+
+void PlotWindow::slot_ExportPNG(){
+    QString filename = QFileDialog::getSaveFileName(NULL,"Export to image file (PNG)","","Image file (*.png)");
+    filename = filename.split(QString(".")).at(0);
+    filename += ".png";
+    plot->savePng(filename);
+}
+
+void PlotWindow::slot_ExportBMP(){
+    QString filename = QFileDialog::getSaveFileName(NULL,"Export to image file (BMP)","","Image file (*.bmp)");
+    filename = filename.split(QString(".")).at(0);
+    filename += ".bmp";
+    plot->saveBmp(filename);
+}
+
+void PlotWindow::slot_ExportJPG(){
+    QString filename = QFileDialog::getSaveFileName(NULL,"Export to image file (JPG)","","Image file (*.jpg)");
+    filename = filename.split(QString(".")).at(0);
+    filename += ".jpg";
+    plot->saveJpg(filename);
 }

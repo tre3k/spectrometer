@@ -21,7 +21,7 @@
 #define XML_WIDTH_CHANNELS "width_channels"
 #define XML_CYCLES "cycles"
 #define XML_TIME_OF_CYCLES "time_of_cycles"
-#define XML_SPECRA_PLOT_STYLE "specra_plot_style"
+#define XML_SPECRA_PLOT_STYLE "spector_plot_style"
 
 #define XML_PLOT_COLOUR_R "plot_colour_r"
 #define XML_PLOT_COLOUR_G "plot_colour_g"

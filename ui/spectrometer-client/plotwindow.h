@@ -8,7 +8,8 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
-
+#include <QFileDialog>
+#include <QTextStream>
 
 #include "plot.h"
 
@@ -27,7 +28,12 @@ private:
     QMenuBar *menuBar;
 
     QMenu *menuFile;
-    QAction *actionExport;
+    QMenu *menuExport;
+    QAction *actionExportTXT;
+    QAction *actionExportPDF;
+    QAction *actionExportPNG;
+    QAction *actionExportJPG;
+    QAction *actionExportBMP;
     QAction *actionClose;
 
     QMenu *menuAxes;
@@ -47,6 +53,11 @@ private slots:
     void slot_CloseThis();
     void slot_AxisXLogScale(bool);
     void slot_AxisYLogScale(bool);
+    void slot_ExportJPG();
+    void slot_ExportBMP();
+    void slot_ExportPNG();
+    void slot_ExportTXT();
+    void slot_ExportPDF();
 public slots:
     void slot_AutoScale();
 
