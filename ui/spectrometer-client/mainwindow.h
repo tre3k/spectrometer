@@ -84,7 +84,7 @@ signals:
 
 class MdiArea : public QMdiArea{
 public:
-    MdiArea(QWidget *parent = 0) : QMdiArea(parent), m_pixmap(":/pnpi.svg"){}
+    MdiArea(QWidget *parent = 0) : QMdiArea(parent), m_pixmap(":/icons/pnpi.svg"){}
 protected:
     void paintEvent(QPaintEvent *event)
     {

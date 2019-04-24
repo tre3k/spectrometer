@@ -8,6 +8,9 @@
 #include <QHBoxLayout>
 #include <QtMath>
 #include <QColorDialog>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QPalette>
 
 #include "options.h"
 #include "plot.h"

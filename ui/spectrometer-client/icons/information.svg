@@ -20,7 +20,7 @@
    inkscape:version="0.92.4 5da689c313, 2019-01-14"><metadata
    id="metadata47"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
    id="defs45">
 	
 </defs><sodipodi:namedview
@@ -36,9 +36,9 @@
    inkscape:window-height="1048"
    id="namedview43"
    showgrid="false"
-   inkscape:zoom="1.4201748"
-   inkscape:cx="85.3408"
-   inkscape:cy="194.24105"
+   inkscape:zoom="0.50786431"
+   inkscape:cx="-390.09174"
+   inkscape:cy="220.25487"
    inkscape:window-x="0"
    inkscape:window-y="30"
    inkscape:window-maximized="1"
@@ -51,14 +51,14 @@
 			<path
    inkscape:connector-curvature="0"
    id="path2"
-   d="m 185.8764,-311.53482 c -18.853,0 -34.133,15.28 -34.133,34.133 v 68.04344 c -1.25426,100.35293 -3.42977,142.27895 34.80273,141.018208 41.56693,-1.370698 36.64431,-42.886078 34.58989,-140.955428 l -1.12662,-68.10622 c -0.31183,-18.85042 -15.28,-34.133 -34.133,-34.133"
-   style="fill:#be1931"
+   d="m 185.8764,-311.53482 c -18.853,0 -34.133,14.15017 -34.133,31.60914 v 63.01218 c -1.25426,92.93264 -3.42977,131.758566 34.80273,130.591046 41.56693,-1.269346 36.64431,-39.714996 34.58989,-130.532906 l -1.12662,-63.07032 c -0.31183,-17.45658 -15.28,-31.60914 -34.133,-31.60914"
+   style="fill:#5819f8;stroke-width:0.96231908;fill-opacity:1"
    sodipodi:nodetypes="cscscsc" />
 			<path
    inkscape:connector-curvature="0"
    id="path4"
    d="m 221.69932,-15.227876 c 0,-18.853 -15.28,-34.133 -34.133,-34.133 -18.853,0 -34.133,15.28 -34.133,34.133 0,18.8529998 15.28,34.133 34.133,34.133 18.853,0 34.133,-15.2800002 34.133,-34.133"
-   style="fill:#be1931" />
+   style="fill:#5819f8;fill-opacity:1" />
 		</g>
 	</g>
 <g
