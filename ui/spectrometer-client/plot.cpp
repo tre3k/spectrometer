@@ -4,9 +4,9 @@ Plot::Plot(QWidget *parent) : QCustomPlot(parent)
 {
     this->setInteractions(QCP::iRangeZoom |
                           QCP::iRangeDrag |
-                          QCP::iMultiSelect |
-                          QCP::iSelectLegend |
-                          QCP::iSelectPlottables |
+                          //QCP::iMultiSelect |
+                          //QCP::iSelectLegend |
+                          //QCP::iSelectPlottables |
                           QCP::iSelectAxes);
 
     //this->xAxis2->setVisible(true);
@@ -20,13 +20,15 @@ Plot::Plot(QWidget *parent) : QCustomPlot(parent)
             this,SLOT(slot_sAxies_drag_zoom(QCPAxis*,QCPAxis::SelectablePart,QMouseEvent*)));
     connect(this,SIGNAL(mouseDoubleClick(QMouseEvent*)),
             this,SLOT(slot_full_drag_zoom(QMouseEvent*)));
+
     connect(this,SIGNAL(selectionChangedByUser()),
             this,SLOT(slot_selectionChanged()));
+
     return;
 
 }
 
-void Plot::addCurve(QVector<double> *x, QVector<double> *y, QColor color, QString name){
+void Plot::addCurve(QVector<double> *x, QVector<double> *y, QString name){
     QCPGraph *graph;
     QCPBars *bars;
 
@@ -50,7 +52,7 @@ void Plot::addCurve(QVector<double> *x, QVector<double> *y, QColor color, QStrin
         this->rescaleAxes(true);
         if(x->size()!=0) bars->setWidth(0.8*x->at(x->size()-1)/x->size());
         bars->setPen(Qt::NoPen);
-        bars->setBrush(QColor(20, 100, 50, 200));
+        bars->setBrush(color);
         break;
     }
 
@@ -117,4 +119,8 @@ void Plot::setTitle(QString title){
 
 void Plot::setStyle(int value){
     style = value;
+}
+
+void Plot::setColour(QColor value){
+    color = value;
 }

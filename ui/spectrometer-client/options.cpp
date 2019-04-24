@@ -7,8 +7,14 @@ Options::Options()
     width_channel = WIDTH_CHANNEL_1p0;
     cycles = 100;
     time_of_cycles = 1;
+    SpectraPlotType = PLOT_STYLE_BARS;
 
     host="http://localhost:8080/";
+
+    plot_colour_r = 20;
+    plot_colour_g = 100;
+    plot_colour_b = 50;
+    plot_colour_alpha = 200;
 
     loadOptions();
 }
@@ -41,6 +47,11 @@ void Options::loadOptions(){
             if(xml.name()==XML_WIDTH_CHANNELS) width_channel = xml.readElementText().toInt();
             if(xml.name()==XML_CYCLES) cycles = xml.readElementText().toInt();
             if(xml.name()==XML_TIME_OF_CYCLES) time_of_cycles = xml.readElementText().toDouble();
+            if(xml.name()==XML_SPECRA_PLOT_STYLE) SpectraPlotType = xml.readElementText().toInt();
+            if(xml.name()==XML_PLOT_COLOUR_R) plot_colour_r = xml.readElementText().toInt();
+            if(xml.name()==XML_PLOT_COLOUR_G) plot_colour_g = xml.readElementText().toInt();
+            if(xml.name()==XML_PLOT_COLOUR_B) plot_colour_b = xml.readElementText().toInt();
+            if(xml.name()==XML_PLOT_COLOUR_ALPHA) plot_colour_alpha = xml.readElementText().toInt();
         }
     }
 
@@ -62,6 +73,11 @@ void Options::saveOptions(){
     xml.writeTextElement(XML_WIDTH_CHANNELS,QString::number(width_channel));
     xml.writeTextElement(XML_CYCLES,QString::number(cycles));
     xml.writeTextElement(XML_TIME_OF_CYCLES,QString::number(time_of_cycles));
+    xml.writeTextElement(XML_SPECRA_PLOT_STYLE,QString::number(SpectraPlotType));
+    xml.writeTextElement(XML_PLOT_COLOUR_R,QString::number(plot_colour_r));
+    xml.writeTextElement(XML_PLOT_COLOUR_G,QString::number(plot_colour_g));
+    xml.writeTextElement(XML_PLOT_COLOUR_B,QString::number(plot_colour_b));
+    xml.writeTextElement(XML_PLOT_COLOUR_ALPHA,QString::number(plot_colour_alpha));
 
     xml.writeEndElement();
     xml.writeEndDocument();

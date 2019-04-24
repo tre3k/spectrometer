@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /* formerid spectra Windows Plot*/
     mainPlotWindow = new PlotWindow();
     mainPlotWindow->setWindowTitle("spectra");
-    mainPlotWindow->setWindowIcon(QIcon(":/icon.png"));
+    mainPlotWindow->setWindowIcon(QIcon(":/graph.svg"));
     mainPlotWindow->setGeometry(20,20,800,600);
     mainPlotWindow->setMinimumSize(400,300);
     createSpectraWin();
@@ -64,6 +64,10 @@ MainWindow::MainWindow(QWidget *parent) :
     progressBar->setMaximumSize(120,13);
     ui->statusBar->addPermanentWidget(progressBar);
 
+    /* Main Thread */
+    mainThread = new MainThread();
+    threadParameters = new ThreadParameters;        //struct
+
 
     /* connect signals and slots */
     connect(ui->comboBoxChannelsTOF,SIGNAL(currentIndexChanged(int)),
@@ -72,6 +76,17 @@ MainWindow::MainWindow(QWidget *parent) :
             this,SLOT(slot_setWidthChannel(int)));
     connect(mainPlotWindow->actionChannels_time,SIGNAL(triggered(bool)),
             this,SLOT(slot_changesXaxis(bool)));
+
+    /* connect with mainThread */
+    connect(this,SIGNAL(signal_sendParametersToThread(ThreadParameters *)),
+            mainThread,SLOT(slot_recvParameters(ThreadParameters *)));
+    connect(mainThread,SIGNAL(signal_dataCountDone()),
+            this,SLOT(slot_dataCountDone()));
+
+    /* connect with Settings dialog */
+    connect(this,SIGNAL(signal_sendOptions(Options *)),
+            settings,SLOT(slot_recvOptions(Options *)));
+
 }
 
 MainWindow::~MainWindow()
@@ -118,6 +133,7 @@ void MainWindow::on_actionTOF_triggered()
 /* Press settings button */
 void MainWindow::on_actionSettings_triggered()
 {
+    emit signal_sendOptions(options);
     settings->show();
 }
 
@@ -158,31 +174,31 @@ void MainWindow::slot_setWidthChannel(int width_code){
         switch(width_code){
         case WIDTH_CHANNEL_0p1:
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,
-            0.1*CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
+            0.1*Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
             break;
         case WIDTH_CHANNEL_0p2:
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,
-            0.2*CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
+            0.2*Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
             break;
         case WIDTH_CHANNEL_0p5:
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,
-            0.5*CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
+            0.5*Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
             break;
         case WIDTH_CHANNEL_1p0:
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,
-            1.0*CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
+            1.0*Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
             break;
         case WIDTH_CHANNEL_2p0:
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,
-            2.0*CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
+            2.0*Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
             break;
         case WIDTH_CHANNEL_4p0:
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,
-            4.0*CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
+            4.0*Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
             break;
         case WIDTH_CHANNEL_8p0:
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,
-            8.0*CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
+            8.0*Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex())/1000));
             break;
         }
     }
@@ -204,72 +220,46 @@ void MainWindow::slot_changesXaxis(bool state){
     mainPlotWindow->slot_AutoScale();
 }
 
+
+void MainWindow::buildDataOnPlot(){
+    mainPlotWindow->plot->clearGraphs();
+    mainPlotWindow->plot->clearPlottables();
+    mainPlotWindow->plot->setColour(QColor(options->plot_colour_r,
+                                           options->plot_colour_g,
+                                           options->plot_colour_b,
+                                           options->plot_colour_alpha));
+    mainPlotWindow->plot->setStyle(options->SpectraPlotType);
+    if(mainPlotWindow->channels_time){
+        mainPlotWindow->plot->addCurve(data_channels,data_counts,"counts");
+    }else{
+        mainPlotWindow->plot->addCurve(data_time,data_counts,"counts");
+    }
+    mainPlotWindow->plot->replot();
+}
+
+
 void MainWindow::on_pushButtonTOFStart_clicked()
 {
     data_counts->clear();
     data_time->clear();
     data_channels->clear();
 
-    for(int i=0;i<CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
+    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
         data_channels->append((double)i);
-        data_time->append((double)i*CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
-        data_counts->append(rand()%1000);
+        data_time->append((double)i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
     }
 
+    threadParameters->data_counts = data_counts;
+    threadParameters->cycles = ui->spinBoxCyclesTOF->value();
+    threadParameters->time_of_cycle = ui->doubleSpinBoxTimeOfCycleTOF->value();
+    threadParameters->code_width = ui->comboBoxWidthChannelTOF->currentIndex();
+    threadParameters->code_channels = ui->comboBoxChannelsTOF->currentIndex();
+
+    emit signal_sendParametersToThread(threadParameters);
+    mainThread->start();
+}
+
+/* run when data_count array in mainThread is full */
+void MainWindow::slot_dataCountDone(){
     buildDataOnPlot();
-}
-
-int MainWindow::CodeToChannel(int code){
-     switch(code){
-        case CHANNELS_256:
-            return 256;
-        case CHANNELS_512:
-            return 512;
-        case CHANNELS_1024:
-            return 1024;
-        case CHANNELS_2048:
-            return 2048;
-        case CHANNELS_4096:
-            return 4096;
-        case CHANNELS_8192:
-            return 8192;
-        case CHANNELS_16384:
-            return 16384;
-     }
-     return 0;
-}
-
-
-double MainWindow::CodeToWidthChannel(int code){
-    switch(code){
-        case WIDTH_CHANNEL_0p1:
-            return 0.1;
-        case WIDTH_CHANNEL_0p2:
-            return 0.2;
-        case WIDTH_CHANNEL_0p5:
-            return 0.5;
-        case WIDTH_CHANNEL_1p0:
-            return 1.0;
-        case WIDTH_CHANNEL_2p0:
-            return 2.0;
-        case WIDTH_CHANNEL_4p0:
-            return 4.0;
-        case WIDTH_CHANNEL_8p0:
-            return 8.0;
-    }
-    return 0.0;
-}
-
-
-void MainWindow::buildDataOnPlot(){
-    mainPlotWindow->plot->clearGraphs();
-    mainPlotWindow->plot->clearPlottables();
-
-    mainPlotWindow->plot->setStyle(PLOT_STYLE_BARS);
-    if(mainPlotWindow->channels_time){
-        mainPlotWindow->plot->addCurve(data_channels,data_counts,"blue","counts");
-    }else{
-        mainPlotWindow->plot->addCurve(data_time,data_counts,"blue","counts");
-    }
-    mainPlotWindow->plot->replot();
 }

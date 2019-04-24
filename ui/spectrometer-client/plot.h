@@ -16,13 +16,15 @@ class Plot : public QCustomPlot
 
 private:
     int style;
+    QColor color;
 
 public:
     Plot(QWidget *parent = 0);
-    void addCurve(QVector<double> *,QVector<double> *,QColor,QString name="");
+    void addCurve(QVector<double> *,QVector<double> *,QString name="");
 
     void setTitle(QString title);
     void setStyle(int value);
+    void setColour(QColor value);
 
 private slots:
     void slot_sAxies_drag_zoom(QCPAxis *,QCPAxis::SelectablePart,QMouseEvent *);

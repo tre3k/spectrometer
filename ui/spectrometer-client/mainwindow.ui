@@ -75,6 +75,8 @@
    </attribute>
    <addaction name="actionConnect"/>
    <addaction name="actionSettings"/>
+   <addaction name="separator"/>
+   <addaction name="actionSpectra"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidgetTOF">
@@ -150,23 +152,10 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="pushButtonTOFStart">
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>  Start</string>
-        </property>
-        <property name="icon">
-         <iconset resource="resources.qrc">
-          <normaloff>:/play.svg</normaloff>:/play.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
+         <string>Time of cycle:</string>
         </property>
        </widget>
       </item>
@@ -189,12 +178,49 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Time of cycle:</string>
-        </property>
-       </widget>
+      <item row="4" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="pushButtonTOFStart">
+          <property name="text">
+           <string>  Start</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/play.svg</normaloff>:/play.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButtonTOFStop">
+          <property name="text">
+           <string>  Stop</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/stop.svg</normaloff>:/stop.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>19</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -211,6 +237,10 @@
    </property>
   </action>
   <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/settings.svg</normaloff>:/settings.svg</iconset>
+   </property>
    <property name="text">
     <string>Settings</string>
    </property>
@@ -221,6 +251,10 @@
    </property>
   </action>
   <action name="actionSpectra">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/graph.svg</normaloff>:/graph.svg</iconset>
+   </property>
    <property name="text">
     <string>Show &amp;spectra</string>
    </property>
@@ -234,6 +268,10 @@
    </property>
   </action>
   <action name="actionConnect">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/connection.svg</normaloff>:/connection.svg</iconset>
+   </property>
    <property name="text">
     <string>Connect</string>
    </property>

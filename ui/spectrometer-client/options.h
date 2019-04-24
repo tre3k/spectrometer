@@ -8,6 +8,8 @@
 #include <QXmlStreamWriter>
 #include <QMessageBox>
 
+#include "plot.h"
+
 
 #define OPTIONS_PATH QDir::toNativeSeparators(QDir::homePath() + "/.spectrometer-client")
 #define OPTIONS_FILE QDir::toNativeSeparators(QDir::homePath() + "/.spectrometer-client/options.xml")
@@ -19,7 +21,12 @@
 #define XML_WIDTH_CHANNELS "width_channels"
 #define XML_CYCLES "cycles"
 #define XML_TIME_OF_CYCLES "time_of_cycles"
+#define XML_SPECRA_PLOT_STYLE "specra_plot_style"
 
+#define XML_PLOT_COLOUR_R "plot_colour_r"
+#define XML_PLOT_COLOUR_G "plot_colour_g"
+#define XML_PLOT_COLOUR_B "plot_colour_b"
+#define XML_PLOT_COLOUR_ALPHA "plot_colour_alpha"
 
 
 enum{
@@ -48,6 +55,11 @@ class Options
 public:
     QString host;
     int SpectraPlotType;
+    int plot_colour_r;
+    int plot_colour_g;
+    int plot_colour_b;
+    int plot_colour_alpha;
+
     int channels;
     int width_channel;
     int cycles;

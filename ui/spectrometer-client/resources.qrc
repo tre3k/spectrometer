@@ -3,5 +3,9 @@
         <file>icon.png</file>
         <file>pnpi.svg</file>
         <file>play.svg</file>
+        <file>stop.svg</file>
+        <file>graph.svg</file>
+        <file>settings.svg</file>
+        <file>connection.svg</file>
     </qresource>
 </RCC>

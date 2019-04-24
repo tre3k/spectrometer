@@ -12,6 +12,8 @@
 #include "plotwindow.h"
 #include "options.h"
 #include "settings.h"
+#include "mainthread.h"
+#include "functions.h"
 
 namespace Ui {
 class MainWindow;
@@ -46,19 +48,23 @@ public:
     /* setting dialog */
     Settings *settings;
 
+    /* Main Thread */
+    MainThread *mainThread;
+    ThreadParameters *threadParameters;
+
     QVector <double> *data_counts;
     QVector <double> *data_channels;
     QVector <double> *data_time;
 
 public:
-    int CodeToChannel(int code);
-    double CodeToWidthChannel(int code);
+
     void buildDataOnPlot();
 
 private slots:
     void slot_setChannels(int);
     void slot_setWidthChannel(int);
     void slot_changesXaxis(bool);
+    void slot_dataCountDone();
 
 private slots:
     void on_actionAbout_triggered();
@@ -68,6 +74,10 @@ private slots:
     void on_actionSettings_triggered();
 
     void on_pushButtonTOFStart_clicked();
+
+signals:
+    void signal_sendParametersToThread(ThreadParameters *p);
+    void signal_sendOptions(Options *);
 };
 
 

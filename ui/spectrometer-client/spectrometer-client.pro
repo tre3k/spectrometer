@@ -32,7 +32,9 @@ SOURCES += \
         about.cpp \
         plot.cpp \
     settings.cpp \
-    options.cpp
+    options.cpp \
+    mainthread.cpp \
+    functions.cpp
 
 
 HEADERS += \
@@ -42,7 +44,9 @@ HEADERS += \
         about.h \
         plot.h \
     settings.h \
-    options.h
+    options.h \
+    mainthread.h \
+    functions.h
 
 
 FORMS += \
