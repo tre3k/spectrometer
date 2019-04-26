@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui printsupport
+QT       += core gui printsupport network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,11 +31,11 @@ SOURCES += \
         plotwindow.cpp \
         about.cpp \
         plot.cpp \
-    settings.cpp \
-    options.cpp \
-    mainthread.cpp \
-    functions.cpp \
-    server.cpp
+        settings.cpp \
+        options.cpp \
+        mainthread.cpp \
+        functions.cpp \
+        server.cpp
 
 
 HEADERS += \
@@ -44,17 +44,17 @@ HEADERS += \
         plotwindow.h \
         about.h \
         plot.h \
-    settings.h \
-    options.h \
-    mainthread.h \
-    functions.h \
-    server.h
+        settings.h \
+        options.h \
+        mainthread.h \
+        functions.h \
+        server.h
 
 
 FORMS += \
         mainwindow.ui \
         about.ui \
-    settings.ui
+        settings.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -64,4 +64,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 RESOURCES += \
-    resources.qrc
+        resources.qrc
