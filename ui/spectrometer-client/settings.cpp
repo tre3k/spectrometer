@@ -87,6 +87,7 @@ void Settings::slot_recvOptions(Options *o){
     /* Server */
     urlWidget.lineEditURL.setText(localOptions.host);
 
+
     /* Plot */
     slot_changePlotStyle(localOptions.SpectraPlotType);
     plotWidgets.comboBox.setCurrentIndex(localOptions.SpectraPlotType);

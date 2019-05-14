@@ -25,9 +25,10 @@ public class ReadMem extends HttpServlet {
         machine.ReadMem();
         machine.close();
 
+        resp.getWriter().println("readmem");
 
         for(int i=0;i<size;i++){
-            resp.getWriter().println(machine.memory[i]+";");
+            resp.getWriter().println(machine.memory[i]);
         }
 
 

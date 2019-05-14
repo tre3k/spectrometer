@@ -69,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mainThread = new MainThread();
     threadParameters = new ThreadParameters;        //struct
 
+    /* Server */
+    server = new Server();
 
     /* connect signals and slots */
     connect(ui->comboBoxChannelsTOF,SIGNAL(currentIndexChanged(int)),
@@ -87,6 +89,10 @@ MainWindow::MainWindow(QWidget *parent) :
     /* connect with Settings dialog */
     connect(this,SIGNAL(signal_sendOptions(Options *)),
             settings,SLOT(slot_recvOptions(Options *)));
+
+    /* connect Server and MainWindow */
+    connect(server,SIGNAL(signal_reply(QByteArray)),
+            this,SLOT(slot_reply(QByteArray)));
 
 }
 
@@ -255,12 +261,67 @@ void MainWindow::on_pushButtonTOFStart_clicked()
     threadParameters->time_of_cycle = ui->doubleSpinBoxTimeOfCycleTOF->value();
     threadParameters->code_width = ui->comboBoxWidthChannelTOF->currentIndex();
     threadParameters->code_channels = ui->comboBoxChannelsTOF->currentIndex();
+    threadParameters->channels = QString(ui->comboBoxChannelsTOF->currentText()).toInt();
+    threadParameters->mainURL = options->host;
 
     emit signal_sendParametersToThread(threadParameters);
     mainThread->start();
+
+    slot_ReadMem();
 }
 
 /* run when data_count array in mainThread is full */
 void MainWindow::slot_dataCountDone(){
     buildDataOnPlot();
+}
+
+/* slots for connect from thread */
+void MainWindow::slot_Init(){
+
+}
+
+void MainWindow::slot_Start(){
+
+}
+
+void MainWindow::slot_Stop(){
+    server->setURL(options->host);
+    QUrlQuery query;
+    server->Request("stop",query);
+}
+
+void MainWindow::slot_ReadMem(){
+    server->setURL(options->host);
+    QUrlQuery query;
+    query.addQueryItem("size",ui->comboBoxChannelsTOF->currentText());
+    server->Request("readmem",query);
+}
+
+/* slot for readMem */
+void MainWindow::slot_reply(QByteArray content){
+    //qDebug() << content;
+    QStringList lst = QString(content).split('\n');
+    qDebug() << lst.at(0);
+    if(lst.at(0)=="readmem"){
+        for(int i=1;i<lst.size();i++){
+            data_counts->append(QString(lst.at(i)).toDouble());
+        }
+        slot_dataCountDone();
+    }
+}
+
+void MainWindow::on_actionConnect_triggered()
+{
+    // Just for test server
+
+    /*
+    Server *server = new Server();
+    server->setURL(options->host);
+    QUrlQuery query;
+    query.addQueryItem("size",QString::number(16384));
+    server->Request("readmem",query);
+    */
+
+    //slot_ReadMem();
+    //slot_Stop();
 }

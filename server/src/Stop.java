@@ -20,11 +20,10 @@ public class Stop extends HttpServlet {
     }
 
     public void ExecStop(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        resp.getWriter().println("stop");
+
         Machine machine = new Machine();
         machine.Stop();
         machine.close();
-
-
-
     }
 }

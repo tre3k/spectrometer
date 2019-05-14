@@ -57,6 +57,9 @@ public:
     QVector <double> *data_channels;
     QVector <double> *data_time;
 
+    /* Server class for http request */
+    Server *server;
+
 public:
 
     void buildDataOnPlot();
@@ -66,6 +69,11 @@ private slots:
     void slot_setWidthChannel(int);
     void slot_changesXaxis(bool);
     void slot_dataCountDone();
+    void slot_ReadMem();
+    void slot_Init();
+    void slot_Start();
+    void slot_Stop();
+    void slot_reply(QByteArray);
 
 private slots:
     void on_actionAbout_triggered();
@@ -75,6 +83,8 @@ private slots:
     void on_actionSettings_triggered();
 
     void on_pushButtonTOFStart_clicked();
+
+    void on_actionConnect_triggered();
 
 signals:
     void signal_sendParametersToThread(ThreadParameters *p);

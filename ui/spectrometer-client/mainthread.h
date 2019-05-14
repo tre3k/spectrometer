@@ -15,7 +15,10 @@ struct ThreadParameters{
     int code_channels;
     int code_width;
 
-    QVector<double> *data_counts;    // link to data_counts;
+    QVector<double> *data_counts;    // link to data_counts
+
+    QString mainURL;
+    int channels;
 };
 
 class MainThread : public QThread
@@ -23,6 +26,9 @@ class MainThread : public QThread
     Q_OBJECT
 public:
     ThreadParameters *parameters;
+private:
+    QNetworkAccessManager *NetworkManager;
+    QNetworkCookieJar *NetworkCookie;
 
 public:
     MainThread(QWidget *parent = nullptr);
