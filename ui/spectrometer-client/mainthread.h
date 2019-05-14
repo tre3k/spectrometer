@@ -36,6 +36,7 @@ public:
 
 signals:
     void signal_dataCountDone();
+    void signal_progressBar(int);
 
 private slots:
     void slot_recvParameters(ThreadParameters *p);

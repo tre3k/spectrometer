@@ -108,14 +108,15 @@ public class Machine {
         //sendCommand(CMD_MEMORY_ZONE,(byte)0, (byte)0);
         // add here function for read memory and insert data to memory[]
 
-        for(int i=0;i<16384;i++){
-            memory[i] = i*2;
-        }
 
         /* set two memory zone*/
         //sendCommand(CMD_MEMORY_ZONE,(byte)1, (byte)0);
         // add here function for read memory and insert data to memory[]
 
+
+        for(int i=0;i<16384;i++){
+            memory[i] = i*2;
+        }
 
     }
 

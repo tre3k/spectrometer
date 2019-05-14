@@ -94,6 +94,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(server,SIGNAL(signal_reply(QByteArray)),
             this,SLOT(slot_reply(QByteArray)));
 
+    /* progress bar */
+    connect(mainThread,SIGNAL(signal_progressBar(int)),
+            progressBar,SLOT(setValue(int)));
 }
 
 MainWindow::~MainWindow()
@@ -258,6 +261,7 @@ void MainWindow::on_pushButtonTOFStart_clicked()
 
     threadParameters->data_counts = data_counts;
     threadParameters->cycles = ui->spinBoxCyclesTOF->value();
+    progressBar->setRange(0,threadParameters->cycles-1);
     threadParameters->time_of_cycle = ui->doubleSpinBoxTimeOfCycleTOF->value();
     threadParameters->code_width = ui->comboBoxWidthChannelTOF->currentIndex();
     threadParameters->code_channels = ui->comboBoxChannelsTOF->currentIndex();
@@ -277,11 +281,69 @@ void MainWindow::slot_dataCountDone(){
 
 /* slots for connect from thread */
 void MainWindow::slot_Init(){
-
+    server->setURL(options->host);
+    QUrlQuery query;
+    server->Request("init",query);
 }
 
 void MainWindow::slot_Start(){
+    server->setURL(options->host);
+    QUrlQuery query;
+    int channels_code = 1;
+    int widht_code = 2;
 
+    switch (ui->comboBoxChannelsTOF->currentIndex()) {
+    case CHANNELS_256:
+        channels_code = 1;
+        break;
+    case CHANNELS_512:
+        channels_code = 2;
+        break;
+    case CHANNELS_1024:
+        channels_code = 4;
+        break;
+    case CHANNELS_2048:
+        channels_code = 8;
+        break;
+    case CHANNELS_4096:
+        channels_code = 16;
+        break;
+    case CHANNELS_8192:
+        channels_code = 32;
+        break;
+    case CHANNELS_16384:
+        channels_code = 64;
+        break;
+    }
+
+    switch (ui->comboBoxWidthChannelTOF->currentIndex()) {
+    case WIDTH_CHANNEL_0p1:
+        widht_code = 128;
+        break;
+    case WIDTH_CHANNEL_0p2:
+        widht_code = 64;
+        break;
+    case WIDTH_CHANNEL_0p5:
+        widht_code = 32;
+        break;
+    case WIDTH_CHANNEL_1p0:
+        widht_code = 16;
+        break;
+    case WIDTH_CHANNEL_2p0:
+        widht_code = 8;
+        break;
+    case WIDTH_CHANNEL_4p0:
+        widht_code = 4;
+        break;
+    case WIDTH_CHANNEL_8p0:
+        widht_code = 2;
+        break;
+    }
+
+    query.addQueryItem("channels",QString::number(channels_code));
+    query.addQueryItem("width",QString::number(widht_code));
+    query.addQueryItem("delay",QString::number(ui->spinBoxDelay->value()));
+    server->Request("start",query);
 }
 
 void MainWindow::slot_Stop(){
@@ -299,11 +361,10 @@ void MainWindow::slot_ReadMem(){
 
 /* slot for readMem */
 void MainWindow::slot_reply(QByteArray content){
-    //qDebug() << content;
     QStringList lst = QString(content).split('\n');
-    qDebug() << lst.at(0);
+
     if(lst.at(0)=="readmem"){
-        for(int i=1;i<lst.size();i++){
+        for(int i=1;i<lst.size()-1;i++){
             data_counts->append(QString(lst.at(i)).toDouble());
         }
         slot_dataCountDone();

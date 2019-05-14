@@ -25,6 +25,12 @@ void MainThread::run(){
     emit signal_dataCountDone();
     */
 
+    for(int i=0;i<parameters->cycles;i++){
+        this->msleep(parameters->time_of_cycle);
+        // Start, Stop, ReadMem ?
+        emit signal_progressBar(i);
+    }
+
 }
 
 void MainThread::slot_recvParameters(ThreadParameters *p){
