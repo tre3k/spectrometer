@@ -18,7 +18,7 @@ void Server::setURL(QString url){
 void Server::Request(QString page, QUrlQuery params){
     ready = false;
     QNetworkRequest request(QUrl(mainURL+page));
-
+    //request.setHeader(QNetworkRequest::ContentTypeHeader, "some/type");
     manager->post(request,params.toString().toLocal8Bit());
 
 }
