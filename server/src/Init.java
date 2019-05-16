@@ -20,10 +20,11 @@ public class Init extends HttpServlet {
     }
 
     public void ExecInit(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
-        resp.getWriter().println("init");
-
         Machine machine = new Machine();
+        machine.Test();
         machine.Init();
         machine.close();
+
+        resp.getWriter().println("init");
     }
 }

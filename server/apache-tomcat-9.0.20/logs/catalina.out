@@ -1,0 +1,42 @@
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=lcd
+16-May-2019 11:47:45.720 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.20
+16-May-2019 11:47:45.721 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          May 3 2019 22:26:00 UTC
+16-May-2019 11:47:45.721 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 9.0.20.0
+16-May-2019 11:47:45.722 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
+16-May-2019 11:47:45.722 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            5.0.13-arch1-1-ARCH
+16-May-2019 11:47:45.722 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+16-May-2019 11:47:45.722 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /usr/lib/jvm/java-8-openjdk/jre
+16-May-2019 11:47:45.722 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_212-b01
+16-May-2019 11:47:45.722 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+16-May-2019 11:47:45.722 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /data/1/010/spectrometer/server/apache-tomcat-9.0.20
+16-May-2019 11:47:45.722 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /data/1/010/spectrometer/server/apache-tomcat-9.0.20
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/home/kirill/1/010/spectrometer/server/apache-tomcat-9.0.20/conf/logging.properties
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dorg.apache.catalina.security.SecurityListener.UMASK=0027
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/home/kirill/1/010/spectrometer/server/apache-tomcat-9.0.20
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/home/kirill/1/010/spectrometer/server/apache-tomcat-9.0.20
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/home/kirill/1/010/spectrometer/server/apache-tomcat-9.0.20/temp
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dawt.useSystemAAFontSettings=lcd
+16-May-2019 11:47:45.723 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib]
+16-May-2019 11:47:45.895 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+16-May-2019 11:47:45.910 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8009"]
+16-May-2019 11:47:45.912 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [316] milliseconds
+16-May-2019 11:47:45.938 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+16-May-2019 11:47:45.938 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/9.0.20]
+16-May-2019 11:47:45.943 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Установка веб приложения в папку [/data/1/010/spectrometer/server/apache-tomcat-9.0.20/webapps/ROOT]
+16-May-2019 11:47:46.107 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+16-May-2019 11:47:46.133 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/data/1/010/spectrometer/server/apache-tomcat-9.0.20/webapps/ROOT] has finished in [190] ms
+16-May-2019 11:47:46.135 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+16-May-2019 11:47:46.143 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+16-May-2019 11:47:46.150 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [237] milliseconds
+16-May-2019 11:50:18.546 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+16-May-2019 11:50:18.546 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+16-May-2019 11:50:18.553 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["ajp-nio-8009"]
+16-May-2019 11:50:18.559 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+16-May-2019 11:50:18.570 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+16-May-2019 11:50:18.571 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["ajp-nio-8009"]
+16-May-2019 11:50:18.571 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+16-May-2019 11:50:18.572 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["ajp-nio-8009"]

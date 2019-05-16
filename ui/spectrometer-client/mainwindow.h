@@ -86,6 +86,8 @@ private slots:
 
     void on_actionConnect_triggered();
 
+    void on_pushButtonTOFStop_clicked();
+
 signals:
     void signal_sendParametersToThread(ThreadParameters *p);
     void signal_sendOptions(Options *);

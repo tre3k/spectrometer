@@ -97,6 +97,15 @@ MainWindow::MainWindow(QWidget *parent) :
     /* progress bar */
     connect(mainThread,SIGNAL(signal_progressBar(int)),
             progressBar,SLOT(setValue(int)));
+
+    connect(mainThread,SIGNAL(signal_Init()),
+            this,SLOT(slot_Init()));
+    connect(mainThread,SIGNAL(signal_ReadMem()),
+            this,SLOT(slot_ReadMem()));
+    connect(mainThread,SIGNAL(signal_Start()),
+            this,SLOT(slot_Start()));
+    connect(mainThread,SIGNAL(signal_Stop()),
+            this,SLOT(slot_Stop()));
 }
 
 MainWindow::~MainWindow()
@@ -248,31 +257,6 @@ void MainWindow::buildDataOnPlot(){
 }
 
 
-void MainWindow::on_pushButtonTOFStart_clicked()
-{
-    data_counts->clear();
-    data_time->clear();
-    data_channels->clear();
-
-    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
-        data_channels->append(i);
-        data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
-    }
-
-    threadParameters->data_counts = data_counts;
-    threadParameters->cycles = ui->spinBoxCyclesTOF->value();
-    progressBar->setRange(0,threadParameters->cycles-1);
-    threadParameters->time_of_cycle = ui->doubleSpinBoxTimeOfCycleTOF->value();
-    threadParameters->code_width = ui->comboBoxWidthChannelTOF->currentIndex();
-    threadParameters->code_channels = ui->comboBoxChannelsTOF->currentIndex();
-    threadParameters->channels = QString(ui->comboBoxChannelsTOF->currentText()).toInt();
-    threadParameters->mainURL = options->host;
-
-    emit signal_sendParametersToThread(threadParameters);
-    mainThread->start();
-
-    slot_ReadMem();
-}
 
 /* run when data_count array in mainThread is full */
 void MainWindow::slot_dataCountDone(){
@@ -364,10 +348,24 @@ void MainWindow::slot_reply(QByteArray content){
     QStringList lst = QString(content).split('\n');
 
     if(lst.at(0)=="readmem"){
+        qDebug () << "reply readmem";
+        data_counts->clear();
         for(int i=1;i<lst.size()-1;i++){
             data_counts->append(QString(lst.at(i)).toDouble());
         }
         slot_dataCountDone();
+    }
+
+    if(lst.at(0)=="start"){
+        qDebug () << "reply start";
+    }
+
+    if(lst.at(0)=="stop"){
+        qDebug () << "reply stop";
+    }
+
+    if(lst.at(0)=="init"){
+        qDebug () << "reply init";
     }
 }
 
@@ -385,4 +383,48 @@ void MainWindow::on_actionConnect_triggered()
 
     //slot_ReadMem();
     //slot_Stop();
+
+    data_channels->clear();
+    data_time->clear();
+    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
+        data_channels->append(i);
+        data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
+    }
+    slot_ReadMem();
+}
+
+void MainWindow::on_pushButtonTOFStart_clicked()
+{
+    data_counts->clear();
+    data_time->clear();
+    data_channels->clear();
+
+    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
+        data_channels->append(i);
+        data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
+    }
+
+    threadParameters->data_counts = data_counts;
+    threadParameters->cycles = ui->spinBoxCyclesTOF->value();
+    progressBar->setRange(0,threadParameters->cycles-1);
+    threadParameters->time_of_cycle = ui->doubleSpinBoxTimeOfCycleTOF->value();
+    threadParameters->code_width = ui->comboBoxWidthChannelTOF->currentIndex();
+    threadParameters->code_channels = ui->comboBoxChannelsTOF->currentIndex();
+    threadParameters->channels = QString(ui->comboBoxChannelsTOF->currentText()).toInt();
+    threadParameters->mainURL = options->host;
+    emit signal_sendParametersToThread(threadParameters);
+
+    // init device and clean memory
+    slot_Init();
+    mainThread->start();
+
+}
+
+
+void MainWindow::on_pushButtonTOFStop_clicked()
+{
+    mainThread->terminate();
+    slot_Stop();
+    QThread::sleep(1);
+    slot_ReadMem();
 }

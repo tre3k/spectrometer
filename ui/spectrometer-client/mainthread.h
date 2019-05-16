@@ -38,6 +38,11 @@ signals:
     void signal_dataCountDone();
     void signal_progressBar(int);
 
+    void signal_Start();
+    void signal_Stop();
+    void signal_ReadMem();
+    void signal_Init();
+
 private slots:
     void slot_recvParameters(ThreadParameters *p);
 };

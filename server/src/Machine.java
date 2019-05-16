@@ -16,17 +16,22 @@ import java.util.concurrent.TimeUnit;
 
 public class Machine {
 
-    public int[] memory;
+    public long[] memory;
+    ByteBuffer buff;
+
 
     private Context context;
     private DeviceHandle deviceHandle;
     private int result;
-    /*
+
+    private final long TIMEOUT = 0;
     private static final short VID = (short)0x04b4;
     private static final short PID = (short)0x8613;
-    */
-    private static final short VID = (short)0x0930;
-    private static final short PID = (short)0x6544;
+
+    /* memory */
+    private final int MEM_SIZE = 32768;
+    private final int BANK_COUNT =2;
+
 
     /* defice hardware commands */
     private static final byte CMD_TEST = 0x00;
@@ -68,7 +73,8 @@ public class Machine {
         result = LibUsb.claimInterface(deviceHandle,0);
         if(result < 0) throw  new LibUsbException("Error claim interface!", result);
 
-        memory = new int [16384];   // 64kB of memory
+        memory = new long [16384];   // 64kB of memory
+        buff = ByteBuffer.allocate(MEM_SIZE*BANK_COUNT);
      }
 
     /* close USB connection */
@@ -84,6 +90,10 @@ public class Machine {
     public void Init(){
         sendCommand(CMD_INIT_HARDWARE, (byte)0, (byte)0);
         sendCommand(CMD_CLEAR_MEM, (byte)0, (byte)0);
+    }
+
+    public void Test(){
+        sendCommand(CMD_TEST, (byte)0, (byte) 0);
     }
 
     /* start command */
@@ -103,19 +113,39 @@ public class Machine {
         sendCommand(CMD_TOF_STOP,(byte)0, (byte)0);
     }
 
+
     public void ReadMem(){
-        /* set first memory zone */
-        //sendCommand(CMD_MEMORY_ZONE,(byte)0, (byte)0);
-        // add here function for read memory and insert data to memory[]
 
 
-        /* set two memory zone*/
-        //sendCommand(CMD_MEMORY_ZONE,(byte)1, (byte)0);
-        // add here function for read memory and insert data to memory[]
+        /* for usb 2.0 packet size 512 bytes */
+        final int PACKET_SIZE = 512;
+        final int PACKET_COUNT = 64;
+
+        final IntBuffer actual = IntBuffer.allocate(1);
+        ByteBuffer b = ByteBuffer.allocateDirect(PACKET_SIZE);
+
+        int j=0;
+        for(int c = 0;c<BANK_COUNT;c++){
+            sendCommand(CMD_MEMORY_ZONE,(byte)(c & 0xff), (byte)0);
+            sendCommand(CMD_READ_DATA,(byte)0, (byte)0);
+
+            for(int i=0;i<PACKET_COUNT;i++){
+                result = LibUsb.bulkTransfer(deviceHandle,(byte)(LibUsb.ENDPOINT_IN | 6), b, actual, TIMEOUT);
+                if(result < 0) throw new LibUsbException("Error recv data!", result);
+                for(int k=0;k<PACKET_SIZE;k++) {
+                    buff.put(j, b.get(k));
+                    j++;
+                }
+            }
+        }
 
 
-        for(int i=0;i<16384;i++){
-            memory[i] = i*2;
+        for(int i=0;i<MEM_SIZE*BANK_COUNT/4;i++){
+
+            memory[i] = 0;
+            for(int k=0;k<4;k++){
+                memory[i] |= 0xffffffffl & (buff.get(4*i+k) << 8*k);
+            }
         }
 
     }
@@ -123,9 +153,10 @@ public class Machine {
     /* function for send 64 byte and recevery */
     private int sendCommand(byte command,byte b1, byte b2){
         final int PACKET_SIZE = 64;
-        final long TIMEOUT = 200;
+
         final IntBuffer actual = IntBuffer.allocate(1);
-        ByteBuffer buffer = ByteBuffer.allocate(PACKET_SIZE);
+        //ByteBuffer buffer = ByteBuffer.allocate(PACKET_SIZE);
+        ByteBuffer buffer = ByteBuffer.allocateDirect(PACKET_SIZE);
         buffer.put(0,command);
         buffer.put(1,b1);
         buffer.put(2,b2);
@@ -135,9 +166,16 @@ public class Machine {
         if(result < 0) throw new LibUsbException("Error send data!", result);
 
         /* wait for clear memory in device */
-        //if(command == CMD_CLEAR_MEM) TimeUnit.MILLISECONDS.sleep(500);
+        if(command == CMD_CLEAR_MEM){
+            try {
+                Thread.sleep(500);
+            }catch (InterruptedException ex){
+                Thread.currentThread().interrupt();
+            }
+        }
+
         try {
-            Thread.sleep(1);
+            Thread.sleep(100);
         }catch (InterruptedException ex){
             Thread.currentThread().interrupt();
         }

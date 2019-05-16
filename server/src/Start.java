@@ -25,11 +25,10 @@ public class Start extends HttpServlet {
         int width = Integer.valueOf(req.getParameter("width"));             // hardware code for width
         int delay = Integer.valueOf(req.getParameter("delay"));             // just delay in channels
 
-        resp.getWriter().println("start");
-
         Machine machine = new Machine();
         machine.Start(channels,width,delay);
         machine.close();
 
+        resp.getWriter().println("start");
     }
 }
