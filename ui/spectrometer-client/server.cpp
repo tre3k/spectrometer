@@ -16,7 +16,6 @@ void Server::setURL(QString url){
 }
 
 void Server::Request(QString page, QUrlQuery params){
-    ready = false;
     QNetworkRequest request(QUrl(mainURL+page));
     //request.setHeader(QNetworkRequest::ContentTypeHeader, "some/type");
     manager->post(request,params.toString().toLocal8Bit());
@@ -26,8 +25,5 @@ void Server::Request(QString page, QUrlQuery params){
 }
 
 void Server::slot_FinalReply(QNetworkReply *reply){
-    ready = true;
-    //qDebug() << reply->readAll();
-    //content =
     emit signal_reply(reply->readAll());
 }

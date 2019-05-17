@@ -16,7 +16,6 @@ public:
     void setURL(QString url);
     void Request(QString page,QUrlQuery params);
 
-    bool ready = true;
     QByteArray content;
 private:
     QString mainURL;

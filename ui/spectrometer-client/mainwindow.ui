@@ -78,6 +78,8 @@
    <addaction name="separator"/>
    <addaction name="actionSpectra"/>
    <addaction name="actionTOF"/>
+   <addaction name="separator"/>
+   <addaction name="actionRead_data"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidgetTOF">
@@ -317,6 +319,14 @@
    </property>
    <property name="text">
     <string>Connect</string>
+   </property>
+  </action>
+  <action name="actionRead_data">
+   <property name="text">
+    <string>Read data</string>
+   </property>
+   <property name="toolTip">
+    <string>Read data from memory</string>
    </property>
   </action>
  </widget>

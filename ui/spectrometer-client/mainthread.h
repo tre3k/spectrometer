@@ -8,6 +8,7 @@
 #include "functions.h"
 #include "server.h"
 
+#define REPLY_DELAY busy = true; while(busy){}
 
 struct ThreadParameters{
     int cycles;
@@ -30,6 +31,8 @@ private:
     QNetworkAccessManager *NetworkManager;
     QNetworkCookieJar *NetworkCookie;
 
+    bool busy = false;
+
 public:
     MainThread(QWidget *parent = nullptr);
     void run() override;
@@ -45,6 +48,8 @@ signals:
 
 private slots:
     void slot_recvParameters(ThreadParameters *p);
+    void slot_reply(QByteArray);
+
 };
 
 #endif // MAINTHREAD_H

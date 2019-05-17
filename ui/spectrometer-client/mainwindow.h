@@ -88,6 +88,8 @@ private slots:
 
     void on_pushButtonTOFStop_clicked();
 
+    void on_actionRead_data_triggered();
+
 signals:
     void signal_sendParametersToThread(ThreadParameters *p);
     void signal_sendOptions(Options *);

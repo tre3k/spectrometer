@@ -93,6 +93,8 @@ MainWindow::MainWindow(QWidget *parent) :
     /* connect Server and MainWindow */
     connect(server,SIGNAL(signal_reply(QByteArray)),
             this,SLOT(slot_reply(QByteArray)));
+    connect(server,SIGNAL(signal_reply(QByteArray)),
+            mainThread,SLOT(slot_reply(QByteArray)));
 
     /* progress bar */
     connect(mainThread,SIGNAL(signal_progressBar(int)),
@@ -362,6 +364,8 @@ void MainWindow::slot_reply(QByteArray content){
 
     if(lst.at(0)=="stop"){
         qDebug () << "reply stop";
+        //progressBar->setMaximum(1);
+        //progressBar->setValue(1);
     }
 
     if(lst.at(0)=="init"){
@@ -371,26 +375,8 @@ void MainWindow::slot_reply(QByteArray content){
 
 void MainWindow::on_actionConnect_triggered()
 {
-    // Just for test server
 
-    /*
-    Server *server = new Server();
-    server->setURL(options->host);
-    QUrlQuery query;
-    query.addQueryItem("size",QString::number(16384));
-    server->Request("readmem",query);
-    */
 
-    //slot_ReadMem();
-    //slot_Stop();
-
-    data_channels->clear();
-    data_time->clear();
-    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
-        data_channels->append(i);
-        data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
-    }
-    slot_ReadMem();
 }
 
 void MainWindow::on_pushButtonTOFStart_clicked()
@@ -414,8 +400,7 @@ void MainWindow::on_pushButtonTOFStart_clicked()
     threadParameters->mainURL = options->host;
     emit signal_sendParametersToThread(threadParameters);
 
-    // init device and clean memory
-    slot_Init();
+
     mainThread->start();
 
 }
@@ -426,5 +411,16 @@ void MainWindow::on_pushButtonTOFStop_clicked()
     mainThread->terminate();
     slot_Stop();
     QThread::sleep(1);
+    slot_ReadMem();
+}
+
+void MainWindow::on_actionRead_data_triggered()
+{
+    data_channels->clear();
+    data_time->clear();
+    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
+        data_channels->append(i);
+        data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
+    }
     slot_ReadMem();
 }
