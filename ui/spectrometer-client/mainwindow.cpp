@@ -364,8 +364,8 @@ void MainWindow::slot_reply(QByteArray content){
 
     if(lst.at(0)=="stop"){
         qDebug () << "reply stop";
-        //progressBar->setMaximum(1);
-        //progressBar->setValue(1);
+        progressBar->setMaximum(1);
+        progressBar->setValue(1);
     }
 
     if(lst.at(0)=="init"){
@@ -400,9 +400,7 @@ void MainWindow::on_pushButtonTOFStart_clicked()
     threadParameters->mainURL = options->host;
     emit signal_sendParametersToThread(threadParameters);
 
-
     mainThread->start();
-
 }
 
 

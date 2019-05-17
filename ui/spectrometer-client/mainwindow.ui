@@ -80,6 +80,7 @@
    <addaction name="actionTOF"/>
    <addaction name="separator"/>
    <addaction name="actionRead_data"/>
+   <addaction name="actionInit_device"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidgetTOF">
@@ -135,7 +136,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Time of measurement:</string>
+         <string>Cycles:</string>
         </property>
        </widget>
       </item>
@@ -185,6 +186,9 @@
         </property>
         <property name="maximum">
          <double>1000000.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>5.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -327,6 +331,11 @@
    </property>
    <property name="toolTip">
     <string>Read data from memory</string>
+   </property>
+  </action>
+  <action name="actionInit_device">
+   <property name="text">
+    <string>Init device</string>
    </property>
   </action>
  </widget>

@@ -40,6 +40,7 @@ Settings::Settings(QWidget *parent) :
     }
     plotWidgets.plot.setStyle(PLOT_STYLE_LINE);
     plotWidgets.plot.addCurve(&plotWidgets.plot_data_x,&plotWidgets.plot_data_y,"test");
+    plotWidgets.plot.rescaleAxes(true);
 
     /* set color group */
     plotWidgets.labelColor.setText("color: ");

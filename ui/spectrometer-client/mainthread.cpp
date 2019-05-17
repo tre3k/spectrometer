@@ -16,7 +16,8 @@ void MainThread::run(){
     REPLY_DELAY
 
     // start measurement
-
+    emit signal_Start();
+    REPLY_DELAY
 
     for(int i=0;i<parameters->cycles;i++){
         emit signal_progressBar(i);
@@ -25,6 +26,8 @@ void MainThread::run(){
         emit signal_ReadMem();
         REPLY_DELAY
     }
+    emit signal_Stop();
+    REPLY_DELAY
 }
 
 void MainThread::slot_recvParameters(ThreadParameters *p){
