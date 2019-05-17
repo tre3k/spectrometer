@@ -20,26 +20,28 @@ public class ReadMem extends HttpServlet {
     }
 
     public void ExecReadMem(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
-        int size = Integer.valueOf(req.getParameter("size"));
         Machine machine = new Machine();
         machine.ReadMem();
         machine.close();
 
         resp.getWriter().println("readmem");
 
-        for(int i=0;i<size;i++){
-            resp.getWriter().println(machine.memory[i] & 0xffffffffl);
+        if(req.getParameter("size").equals("allmem")) {
+            int k = 0;
+            for(int i=0;i<32768*2;i++) {
+                resp.getWriter().printf("%d: 0x%x", i, machine.buff.get(i) & 0xff);
+                if (machine.buff.get(i) != 0x00) resp.getWriter().printf(" Not zero!");
+                resp.getWriter().printf("\n");
+                if ((i + 1) % 4 == 0){
+                    resp.getWriter().printf("--- %d ---\n", k+1);
+                    k++;
+                }
+            }
+        }else{
+            int size = Integer.valueOf(req.getParameter("size"));
+            for(int i=0;i<size;i++) {
+                resp.getWriter().println(machine.memory[i] & 0xffffffffl);
+            }
         }
-
-
-        /*
-        for(int i=0;i<32768*2;i++){
-            resp.getWriter().printf("%d 0x%x",i,machine.buff.get(i));
-            if(machine.buff.get(i) != (byte) 0x00) resp.getWriter().printf(" NOT ZERO!!!");
-            resp.getWriter().printf("\n");
-        }
-
-         */
-
     }
 }

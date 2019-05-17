@@ -424,3 +424,8 @@ void MainWindow::on_actionRead_data_triggered()
     }
     slot_ReadMem();
 }
+
+void MainWindow::on_actionInit_device_triggered()
+{
+    slot_Init();
+}

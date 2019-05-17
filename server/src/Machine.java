@@ -115,8 +115,6 @@ public class Machine {
 
 
     public void ReadMem(){
-
-
         /* for usb 2.0 packet size 512 bytes */
         final int PACKET_SIZE = 512;
         final int PACKET_COUNT = 64;
@@ -139,12 +137,10 @@ public class Machine {
             }
         }
 
-
         for(int i=0;i<MEM_SIZE*BANK_COUNT/4;i++){
-
             memory[i] = 0;
             for(int k=0;k<4;k++){
-                memory[i] |= 0xffffffffl & (buff.get(4*i+k) << 8*k);
+                memory[i] |= (long)((buff.get(4*i+k) & 0xffl) << 8*k);
             }
         }
 
@@ -172,12 +168,6 @@ public class Machine {
             }catch (InterruptedException ex){
                 Thread.currentThread().interrupt();
             }
-        }
-
-        try {
-            Thread.sleep(100);
-        }catch (InterruptedException ex){
-            Thread.currentThread().interrupt();
         }
 
         /* recevery answer: 0x01 */

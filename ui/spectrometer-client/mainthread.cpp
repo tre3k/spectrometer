@@ -19,14 +19,9 @@ void MainThread::run(){
 
 
     for(int i=0;i<parameters->cycles;i++){
-        emit signal_Start();
-        REPLY_DELAY
-
         emit signal_progressBar(i);
         this->msleep((unsigned long)1000*parameters->time_of_cycle);
 
-        emit signal_Stop();
-        REPLY_DELAY
         emit signal_ReadMem();
         REPLY_DELAY
     }
