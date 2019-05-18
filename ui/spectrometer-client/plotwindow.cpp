@@ -56,10 +56,24 @@ void PlotWindow::generateElements(){
     actionAxis_y_log_scale->setCheckable(true);
     menuAxis_x->addAction(actionAxis_x_log_scale);
     menuAxis_y->addAction(actionAxis_y_log_scale);
-    actionChannels_time = new QAction("channels/time");
+
+    actionChannels = new QAction("channels");
+    actionChannels->setCheckable(true);
+    actionChannels->setChecked(true);
+
+    actionChannels_time = new QAction("time");
     actionChannels_time->setCheckable(true);
-    actionChannels_time->setChecked(true);
+    actionChannels_time->setChecked(false);
+
+    actionChannels_lambda = new QAction("wavelength");
+    actionChannels_lambda->setCheckable(true);
+    actionChannels_lambda->setChecked(false);
+
+    menuAxis_x->addSeparator();
+    menuAxis_x->addAction(actionChannels);
     menuAxis_x->addAction(actionChannels_time);
+    menuAxis_x->addAction(actionChannels_lambda);
+
     actionAutoScale = new QAction("Auto scale");
     menuAxes->addAction(actionAutoScale);
 
@@ -90,6 +104,13 @@ void PlotWindow::generateElements(){
             this,SLOT(slot_ExportJPG()));
     connect(actionExportBMP,SIGNAL(triggered()),
             this,SLOT(slot_ExportBMP()));
+
+    connect(actionChannels,SIGNAL(triggered()),
+            this,SLOT(slot_xAxie_channels()));
+    connect(actionChannels_time,SIGNAL(triggered()),
+            this,SLOT(slot_xAxie_time()));
+    connect(actionChannels_lambda,SIGNAL(triggered()),
+            this,SLOT(slot_xAxie_wavelength()));
 }
 
 void PlotWindow::slot_AxisXLogScale(bool value){
@@ -162,3 +183,35 @@ void PlotWindow::slot_ExportJPG(){
     filename += ".jpg";
     plot->saveJpg(filename);
 }
+
+void PlotWindow::changesXAxieTyepe(int type){
+    xAxieType = type;
+
+    switch (xAxieType) {
+    case X_AXIE_TYPE_CHANNEL:
+        actionChannels->setChecked(true);
+        actionChannels_time->setChecked(false);
+        actionChannels_lambda->setChecked(false);
+        this->plot->xAxis->setLabel("channels");
+        break;
+
+    case X_AXIE_TYPE_TIME:
+        actionChannels->setChecked(false);
+        actionChannels_time->setChecked(true);
+        actionChannels_lambda->setChecked(false);
+        this->plot->xAxis->setLabel("time, ms");
+        break;
+
+    case X_AXIE_TYPE_WAVELENGTH:
+        actionChannels->setChecked(false);
+        actionChannels_time->setChecked(false);
+        actionChannels_lambda->setChecked(true);
+        this->plot->xAxis->setLabel("wavelength, Å");
+        break;
+    }
+    this->plot->replot();
+}
+
+void PlotWindow::slot_xAxie_channels(){changesXAxieTyepe(X_AXIE_TYPE_CHANNEL);}
+void PlotWindow::slot_xAxie_time(){changesXAxieTyepe(X_AXIE_TYPE_TIME);}
+void PlotWindow::slot_xAxie_wavelength(){changesXAxieTyepe(X_AXIE_TYPE_WAVELENGTH);}

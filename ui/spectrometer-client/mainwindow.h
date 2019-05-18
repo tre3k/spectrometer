@@ -55,6 +55,7 @@ public:
 
     QVector <double> *data_counts;
     QVector <double> *data_channels;
+    QVector <double> *data_wavelength;
     QVector <double> *data_time;
 
     /* Server class for http request */

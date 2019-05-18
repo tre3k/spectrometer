@@ -77,8 +77,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this,SLOT(slot_setChannels(int)));
     connect(ui->comboBoxWidthChannelTOF,SIGNAL(currentIndexChanged(int)),
             this,SLOT(slot_setWidthChannel(int)));
-    connect(mainPlotWindow->actionChannels_time,SIGNAL(triggered(bool)),
-            this,SLOT(slot_changesXaxis(bool)));
 
     /* connect with mainThread */
     connect(this,SIGNAL(signal_sendParametersToThread(ThreadParameters *)),
@@ -160,7 +158,7 @@ void MainWindow::on_actionSettings_triggered()
 
 
 void MainWindow::slot_setChannels(int channels_code){
-    if(mainPlotWindow->channels_time){
+    if(mainPlotWindow->xAxieType == X_AXIE_TYPE_CHANNEL){
         switch(channels_code){
         case CHANNELS_256:
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,256));
@@ -184,9 +182,60 @@ void MainWindow::slot_setChannels(int channels_code){
             mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,16384));
             break;
         }
-    }else{
-        slot_setWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex());
     }
+
+    if(mainPlotWindow->xAxieType == X_AXIE_TYPE_TIME){
+        switch(channels_code){
+        case CHANNELS_256:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,256));
+            break;
+        case CHANNELS_512:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,512));
+            break;
+        case CHANNELS_1024:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,1024));
+            break;
+        case CHANNELS_2048:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,2048));
+            break;
+        case CHANNELS_4096:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,4096));
+            break;
+        case CHANNELS_8192:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,8192));
+            break;
+        case CHANNELS_16384:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,16384));
+            break;
+        }
+    }
+
+    if(mainPlotWindow->xAxieType == X_AXIE_TYPE_WAVELENGTH){
+        switch(channels_code){
+        case CHANNELS_256:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,256));
+            break;
+        case CHANNELS_512:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,512));
+            break;
+        case CHANNELS_1024:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,1024));
+            break;
+        case CHANNELS_2048:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,2048));
+            break;
+        case CHANNELS_4096:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,4096));
+            break;
+        case CHANNELS_8192:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,8192));
+            break;
+        case CHANNELS_16384:
+            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,16384));
+            break;
+        }
+    }
+
     mainPlotWindow->plot->replot();
 }
 
@@ -250,11 +299,19 @@ void MainWindow::buildDataOnPlot(){
                                            options->plot_colour_b,
                                            options->plot_colour_alpha));
     mainPlotWindow->plot->setStyle(options->SpectraPlotType);
-    if(mainPlotWindow->channels_time){
+
+    switch (mainPlotWindow->xAxieType) {
+    case X_AXIE_TYPE_CHANNEL:
         mainPlotWindow->plot->addCurve(data_channels,data_counts,"counts");
-    }else{
+        break;
+    case X_AXIE_TYPE_TIME:
         mainPlotWindow->plot->addCurve(data_time,data_counts,"counts");
+        break;
+    case X_AXIE_TYPE_WAVELENGTH:
+         mainPlotWindow->plot->addCurve(data_wavelength,data_counts,"counts");
+        break;
     }
+
     mainPlotWindow->plot->replot();
 }
 
@@ -388,6 +445,7 @@ void MainWindow::on_pushButtonTOFStart_clicked()
     for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
         data_channels->append(i);
         data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
+        // add herer data_wavelength->... data_time conver to speed and calculate waveleng
     }
 
     threadParameters->data_counts = data_counts;
@@ -427,3 +485,5 @@ void MainWindow::on_actionInit_device_triggered()
 {
     slot_Init();
 }
+
+

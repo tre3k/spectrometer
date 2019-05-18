@@ -65,6 +65,8 @@ public:
     int cycles;
     double time_of_cycles;
 
+    double distance = 2.0;
+
 public:
     Options();
     void loadOptions();
