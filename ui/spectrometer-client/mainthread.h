@@ -8,7 +8,7 @@
 #include "functions.h"
 #include "server.h"
 
-#define REPLY_DELAY busy = true; while(busy){}
+#define REPLY_DELAY busy = true; while(busy){this->msleep(100);}
 
 struct ThreadParameters{
     int cycles;
