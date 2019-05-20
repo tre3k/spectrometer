@@ -27,7 +27,7 @@
      <x>0</x>
      <y>0</y>
      <width>1164</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -182,7 +182,7 @@
          <number>3</number>
         </property>
         <property name="minimum">
-         <double>0.001000000000000</double>
+         <double>1.000000000000000</double>
         </property>
         <property name="maximum">
          <double>1000000.000000000000000</double>
