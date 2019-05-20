@@ -72,6 +72,10 @@ MainWindow::MainWindow(QWidget *parent) :
     /* Server */
     server = new Server();
 
+    /* Logfiles class init */
+    logfiles = new Logfiles();
+    logfiles->logfilename = QDir::toNativeSeparators(options->logpath+"/"+options->username+".log");
+
     /* connect signals and slots */
     connect(ui->comboBoxChannelsTOF,SIGNAL(currentIndexChanged(int)),
             this,SLOT(slot_setChannels(int)));
@@ -391,12 +395,19 @@ void MainWindow::slot_Start(){
     query.addQueryItem("width",QString::number(widht_code));
     query.addQueryItem("delay",QString::number(ui->spinBoxDelay->value()));
     server->Request("start",query);
+    logfiles->writeDate();
+    logfiles->write("Start measurement");
+    logfiles->write("\tURL: "+options->host);
+    logfiles->write("\tchannels: "+ui->comboBoxChannelsTOF->currentText());
+    logfiles->write("\twidth of channel: "+ui->comboBoxWidthChannelTOF->currentText());
 }
 
 void MainWindow::slot_Stop(){
     server->setURL(options->host);
     QUrlQuery query;
     server->Request("stop",query);
+    logfiles->writeDate();
+    logfiles->write("Stop measurement");
 }
 
 void MainWindow::slot_ReadMem(){

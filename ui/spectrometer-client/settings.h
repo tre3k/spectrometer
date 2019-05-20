@@ -11,6 +11,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QPalette>
+#include <QFileDialog>
 
 #include "options.h"
 #include "plot.h"
@@ -62,6 +63,7 @@ private slots:
     void slot_changePlotStyle(int style_code);
     void slot_changePlotColor(QColor color);
     void slot_pushButtonColor_clicked();
+    void slot_pushButtonLogFilesDir();
 
 private slots:
     void on_pushButtonClose_clicked();

@@ -7,6 +7,7 @@
 #include <QMdiSubWindow>
 #include <QProgressBar>
 #include <QVector>
+#include <QDir>
 
 #include "about.h"
 #include "plotwindow.h"
@@ -15,6 +16,7 @@
 #include "mainthread.h"
 #include "functions.h"
 #include "server.h"
+#include "logfiles.h"
 
 namespace Ui {
 class MainWindow;
@@ -48,6 +50,9 @@ public:
 
     /* setting dialog */
     Settings *settings;
+
+    /* logfiles class */
+    Logfiles *logfiles;
 
     /* Main Thread */
     MainThread *mainThread;

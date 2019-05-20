@@ -17,7 +17,7 @@ Settings::Settings(QWidget *parent) :
     urlWidget.buttonLogFile.setText("...");
     urlWidget.logfileLayout.addWidget(&urlWidget.lineLogFile);
     urlWidget.logfileLayout.addWidget(&urlWidget.buttonLogFile);
-    urlWidget.layout.addRow("log path: ",&urlWidget.logfileLayout);
+    urlWidget.layout.addRow("Log files path: ",&urlWidget.logfileLayout);
 
     ui->tab->setLayout(&urlWidget.layout);
 
@@ -81,6 +81,9 @@ Settings::Settings(QWidget *parent) :
     connect(colorDialog,SIGNAL(colorSelected(QColor)),
             this,SLOT(slot_changePlotColor(QColor)));
 
+    connect(&urlWidget.buttonLogFile,SIGNAL(clicked()),
+            this,SLOT(slot_pushButtonLogFilesDir()));
+
 }
 
 Settings::~Settings()
@@ -94,6 +97,8 @@ void Settings::slot_recvOptions(Options *o){
 
     /* Server */
     urlWidget.lineEditURL.setText(localOptions.host);
+    urlWidget.lineuserName.setText(localOptions.username);
+    urlWidget.lineLogFile.setText(localOptions.logpath);
 
 
     /* Plot */
@@ -109,6 +114,9 @@ void Settings::slot_recvOptions(Options *o){
 void Settings::on_pushButtonOk_clicked()
 {
     localOptions.host = urlWidget.lineEditURL.text();
+    localOptions.logpath = urlWidget.lineLogFile.text();
+    localOptions.username = urlWidget.lineuserName.text();
+
     *options = localOptions;
     emit signal_setSettings();
     this->close();
@@ -155,4 +163,8 @@ void Settings::slot_changePlotColor(QColor color){
     plotWidgets.plot.clearPlottables();
     plotWidgets.plot.setColour(color);
     plotWidgets.plot.addCurve(&plotWidgets.plot_data_x,&plotWidgets.plot_data_y,"test");
+}
+
+void Settings::slot_pushButtonLogFilesDir(){
+    urlWidget.lineLogFile.setText(QFileDialog::getExistingDirectory(NULL,"change log files directory",urlWidget.lineLogFile.text()));
 }

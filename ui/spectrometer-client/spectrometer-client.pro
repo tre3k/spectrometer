@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        logfiles.cpp \
         main.cpp \
         mainwindow.cpp \
         qcustomplot.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
 
 
 HEADERS += \
+        logfiles.h \
         mainwindow.h \
         qcustomplot.h \
         plotwindow.h \
