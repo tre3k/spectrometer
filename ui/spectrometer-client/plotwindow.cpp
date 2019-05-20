@@ -215,3 +215,7 @@ void PlotWindow::changesXAxieTyepe(int type){
 void PlotWindow::slot_xAxie_channels(){changesXAxieTyepe(X_AXIE_TYPE_CHANNEL);}
 void PlotWindow::slot_xAxie_time(){changesXAxieTyepe(X_AXIE_TYPE_TIME);}
 void PlotWindow::slot_xAxie_wavelength(){changesXAxieTyepe(X_AXIE_TYPE_WAVELENGTH);}
+
+void PlotWindow::slot_replot(){
+    this->plot->replot();
+}

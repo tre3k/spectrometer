@@ -63,6 +63,8 @@ private slots:
 
     void on_pushButtonOk_clicked();
 
+signals:
+    void signal_setSettings();
 
 
 private:

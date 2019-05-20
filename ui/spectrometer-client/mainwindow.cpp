@@ -106,6 +106,10 @@ MainWindow::MainWindow(QWidget *parent) :
             this,SLOT(slot_Start()));
     connect(mainThread,SIGNAL(signal_Stop()),
             this,SLOT(slot_Stop()));
+
+    /* sync settings set and rebuild plot */
+    connect(settings,SIGNAL(signal_setSettings()),
+            this,SLOT(buildDataOnPlot()));
 }
 
 MainWindow::~MainWindow()

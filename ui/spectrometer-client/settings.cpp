@@ -103,6 +103,7 @@ void Settings::on_pushButtonOk_clicked()
 {
     localOptions.host = urlWidget.lineEditURL.text();
     *options = localOptions;
+    emit signal_setSettings();
     this->close();
 }
 

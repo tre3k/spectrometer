@@ -61,7 +61,7 @@ public:
     /* Server class for http request */
     Server *server;
 
-public:
+public slots:
 
     void buildDataOnPlot();
 
@@ -75,6 +75,7 @@ private slots:
     void slot_Start();
     void slot_Stop();
     void slot_reply(QByteArray);
+
 
 private slots:
     void on_actionAbout_triggered();

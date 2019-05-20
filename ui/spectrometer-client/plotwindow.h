@@ -76,6 +76,7 @@ private slots:
 
 public slots:
     void slot_AutoScale();
+    void slot_replot();
 
 };
 
