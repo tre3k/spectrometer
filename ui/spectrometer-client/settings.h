@@ -44,6 +44,11 @@ private:
     struct {
         QFormLayout layout;
         QLineEdit lineEditURL;
+        QLineEdit lineuserName;
+
+        QHBoxLayout logfileLayout;
+        QLineEdit lineLogFile;
+        QPushButton buttonLogFile;
     } urlWidget;
 
     QColorDialog *colorDialog;

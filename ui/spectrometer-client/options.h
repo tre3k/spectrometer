@@ -17,6 +17,8 @@
 #define XML_DTD "<!DOCTYPE spectrometer-client>"
 #define XML_START "options"
 #define XML_HOST "host"
+#define XML_USERNAME "username"
+#define XML_LOGPATH "logpath"
 #define XML_CHANNELS "channels"
 #define XML_WIDTH_CHANNELS "width_channels"
 #define XML_CYCLES "cycles"
@@ -54,6 +56,9 @@ class Options
 {
 public:
     QString host;
+    QString username;
+    QString logpath;
+
     int SpectraPlotType;
     int plot_colour_r;
     int plot_colour_g;

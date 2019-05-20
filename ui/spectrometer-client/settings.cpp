@@ -12,6 +12,13 @@ Settings::Settings(QWidget *parent) :
     /* ============== TAB1 ============== */
     /* add widegets to layout */
     urlWidget.layout.addRow("hostname URL: ",&urlWidget.lineEditURL);
+    urlWidget.layout.addRow("User name: ",&urlWidget.lineuserName);
+
+    urlWidget.buttonLogFile.setText("...");
+    urlWidget.logfileLayout.addWidget(&urlWidget.lineLogFile);
+    urlWidget.logfileLayout.addWidget(&urlWidget.buttonLogFile);
+    urlWidget.layout.addRow("log path: ",&urlWidget.logfileLayout);
+
     ui->tab->setLayout(&urlWidget.layout);
 
 

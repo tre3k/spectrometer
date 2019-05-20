@@ -102,6 +102,11 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pushButtonOk</tabstop>
+  <tabstop>pushButtonClose</tabstop>
+  <tabstop>tabWidget</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

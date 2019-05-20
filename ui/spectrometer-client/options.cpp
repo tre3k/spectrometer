@@ -10,6 +10,8 @@ Options::Options()
     SpectraPlotType = PLOT_STYLE_BARS;
 
     host="http://localhost:8080/";
+    logpath=QDir::homePath();
+
 
     plot_colour_r = 20;
     plot_colour_g = 100;
@@ -43,6 +45,8 @@ void Options::loadOptions(){
         xml.readNext();
         if(xml.isStartElement()){
             if(xml.name()==XML_HOST) host = xml.readElementText();
+            if(xml.name()==XML_USERNAME) username = xml.readElementText();
+            if(xml.name()==XML_LOGPATH) logpath = xml.readElementText();
             if(xml.name()==XML_CHANNELS) channels = xml.readElementText().toInt();
             if(xml.name()==XML_WIDTH_CHANNELS) width_channel = xml.readElementText().toInt();
             if(xml.name()==XML_CYCLES) cycles = xml.readElementText().toInt();
@@ -69,6 +73,8 @@ void Options::saveOptions(){
 
     xml.writeStartElement(XML_START);
     xml.writeTextElement(XML_HOST,host);
+    xml.writeTextElement(XML_USERNAME,username);
+    xml.writeTextElement(XML_LOGPATH,logpath);
     xml.writeTextElement(XML_CHANNELS,QString::number(channels));
     xml.writeTextElement(XML_WIDTH_CHANNELS,QString::number(width_channel));
     xml.writeTextElement(XML_CYCLES,QString::number(cycles));
