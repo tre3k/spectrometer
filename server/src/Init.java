@@ -25,6 +25,8 @@ public class Init extends HttpServlet {
         machine.Init();
         machine.close();
 
+        ReadMem.count = 0;
+
         resp.getWriter().println("init");
     }
 }

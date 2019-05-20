@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ReadMem extends HttpServlet {
+
+    static public int count = 0;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ExecReadMem(req,resp);
@@ -25,6 +28,13 @@ public class ReadMem extends HttpServlet {
         machine.close();
 
         resp.getWriter().println("readmem");
+
+        count ++;
+
+        double maxwell_coeff = 3e-6;
+        for(int i=0;i<16384;i++){
+            machine.memory[i] = (long)(10*count*i*i*(4/Math.sqrt(Math.PI))*Math.pow(maxwell_coeff,3/2)*Math.exp(-maxwell_coeff*i*i));
+        }
 
         if(req.getParameter("size").equals("allmem")) {
             int k = 0;

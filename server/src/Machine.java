@@ -55,39 +55,41 @@ public class Machine {
         /* init libusb */
         context = new Context();
 
-        result = LibUsb.init(context);
-        if(result != LibUsb.SUCCESS) throw new LibUsbException("Unable to initialize libusb.", result);
+        //result = LibUsb.init(context);
+        //if(result != LibUsb.SUCCESS) throw new LibUsbException("Unable to initialize libusb.", result);
 
         /* open device_handle */
-        deviceHandle = LibUsb.openDeviceWithVidPid(context,VID,PID);
-        if(deviceHandle == null) throw new LibUsbException("Error open device!",0);
+        //deviceHandle = LibUsb.openDeviceWithVidPid(context,VID,PID);
+        //if(deviceHandle == null) throw new LibUsbException("Error open device!",0);
 
         /* driver activate */
-        result = LibUsb.kernelDriverActive(deviceHandle,0);
-        if(result == 1){
-            result = LibUsb.detachKernelDriver(deviceHandle,0);
-            if(result != 0) throw new LibUsbException("Error detach kernel driver!",result);
-        }
+        //result = LibUsb.kernelDriverActive(deviceHandle,0);
+        //if(result == 1){
+        //    result = LibUsb.detachKernelDriver(deviceHandle,0);
+        //    if(result != 0) throw new LibUsbException("Error detach kernel driver!",result);
+        //}
 
         /* claim interface */
-        result = LibUsb.claimInterface(deviceHandle,0);
-        if(result < 0) throw  new LibUsbException("Error claim interface!", result);
+        //result = LibUsb.claimInterface(deviceHandle,0);
+        //if(result < 0) throw  new LibUsbException("Error claim interface!", result);
 
         memory = new long [16384];   // 64kB of memory
         buff = ByteBuffer.allocate(MEM_SIZE*BANK_COUNT);
+
      }
 
     /* close USB connection */
     public void close(){
         /* release and close USB interface */
-        LibUsb.releaseInterface(deviceHandle,0);
-        LibUsb.close(deviceHandle);
-        deviceHandle = null;
-        context = null;
+        //LibUsb.releaseInterface(deviceHandle,0);
+        //LibUsb.close(deviceHandle);
+        //deviceHandle = null;
+        //context = null;
     }
 
     /* hardware initialization */
     public void Init(){
+        for(int i=0;i<16384;i++) memory[i] = 0;
         sendCommand(CMD_INIT_HARDWARE, (byte)0, (byte)0);
         sendCommand(CMD_CLEAR_MEM, (byte)0, (byte)0);
     }
@@ -123,9 +125,11 @@ public class Machine {
         ByteBuffer b = ByteBuffer.allocateDirect(PACKET_SIZE);
 
         int j=0;
+        /*
         for(int c = 0;c<BANK_COUNT;c++){
             sendCommand(CMD_MEMORY_ZONE,(byte)(c & 0xff), (byte)0);
             sendCommand(CMD_READ_DATA,(byte)0, (byte)0);
+
 
             for(int i=0;i<PACKET_COUNT;i++){
                 result = LibUsb.bulkTransfer(deviceHandle,(byte)(LibUsb.ENDPOINT_IN | 6), b, actual, TIMEOUT);
@@ -144,6 +148,8 @@ public class Machine {
             }
         }
 
+         */
+
     }
 
     /* function for send 64 byte and recevery */
@@ -158,8 +164,8 @@ public class Machine {
         buffer.put(2,b2);
 
         /* send command */
-        result = LibUsb.bulkTransfer(deviceHandle,(byte)(LibUsb.ENDPOINT_OUT | 1), buffer, actual, TIMEOUT);
-        if(result < 0) throw new LibUsbException("Error send data!", result);
+        //result = LibUsb.bulkTransfer(deviceHandle,(byte)(LibUsb.ENDPOINT_OUT | 1), buffer, actual, TIMEOUT);
+        //if(result < 0) throw new LibUsbException("Error send data!", result);
 
         /* wait for clear memory in device */
         if(command == CMD_CLEAR_MEM){
@@ -171,10 +177,10 @@ public class Machine {
         }
 
         /* recevery answer: 0x01 */
-        result = LibUsb.bulkTransfer(deviceHandle,(byte)(LibUsb.ENDPOINT_IN | 1), buffer, actual, TIMEOUT);
-        if(result < 0) throw new LibUsbException("Error recv data!", result);
+        //result = LibUsb.bulkTransfer(deviceHandle,(byte)(LibUsb.ENDPOINT_IN | 1), buffer, actual, TIMEOUT);
+        //if(result < 0) throw new LibUsbException("Error recv data!", result);
 
-        if(buffer.get(0)!=0x01) return -1;
+        //if(buffer.get(0)!=0x01) return -1;
         return 0;
     }
 
