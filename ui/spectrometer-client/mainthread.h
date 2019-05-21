@@ -28,9 +28,6 @@ class MainThread : public QThread
 public:
     ThreadParameters *parameters;
 private:
-    QNetworkAccessManager *NetworkManager;
-    QNetworkCookieJar *NetworkCookie;
-
     bool busy = false;
 
 public:

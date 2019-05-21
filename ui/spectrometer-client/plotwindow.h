@@ -78,6 +78,9 @@ public slots:
     void slot_AutoScale();
     void slot_replot();
 
+signals:
+    void signal_XAxisChanged();
+
 };
 
 #endif // PLOTWINDOW_H

@@ -5,6 +5,7 @@
 #include <QUrl>
 #include <QtNetwork>
 #include <QString>
+#include <QMessageBox>
 
 #include <options.h>
 

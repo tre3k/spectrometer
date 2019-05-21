@@ -85,6 +85,7 @@ void PlotWindow::generateElements(){
 
 
     this->setWidget(centralWidget);
+    this->changesXAxieTyepe(X_AXIE_TYPE_CHANNEL);
 
     connect(actionClose,SIGNAL(triggered()),
             this,SLOT(slot_CloseThis()));
@@ -210,6 +211,8 @@ void PlotWindow::changesXAxieTyepe(int type){
         break;
     }
     this->plot->replot();
+
+    emit signal_XAxisChanged();
 }
 
 void PlotWindow::slot_xAxie_channels(){changesXAxieTyepe(X_AXIE_TYPE_CHANNEL);}

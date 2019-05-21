@@ -87,8 +87,8 @@
    <addaction name="actionSpectra"/>
    <addaction name="actionTOF"/>
    <addaction name="separator"/>
-   <addaction name="actionRead_data"/>
    <addaction name="actionInit_device"/>
+   <addaction name="actionRead_data"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidgetTOF">
@@ -330,7 +330,7 @@
      <normaloff>:/icons/connection.svg</normaloff>:/icons/connection.svg</iconset>
    </property>
    <property name="text">
-    <string>Connect</string>
+    <string>Test connection</string>
    </property>
   </action>
   <action name="actionRead_data">

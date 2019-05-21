@@ -22,5 +22,23 @@ void Server::Request(QString page, QUrlQuery params){
 }
 
 void Server::slot_FinalReply(QNetworkReply *reply){
-    emit signal_reply(reply->readAll());
+    if(reply->error()!=QNetworkReply::NoError){
+        switch (reply->error()){
+        case QNetworkReply::ContentNotFoundError:
+            QMessageBox::critical(nullptr,"Error!","Content not found!\n");
+            break;
+        case QNetworkReply::TimeoutError:
+            QMessageBox::critical(nullptr,"Error!","Timeout error!\n");
+            break;
+        case QNetworkReply::HostNotFoundError:
+            QMessageBox::critical(nullptr,"Error!","Host not found!\n");
+            break;
+        default:
+            QMessageBox::critical(nullptr,"Error!","Server reply error!\n");
+            break;
+        }
+    }else{
+        emit signal_reply(reply->readAll());
+    }
 }
+

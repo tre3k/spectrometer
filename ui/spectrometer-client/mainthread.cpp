@@ -4,9 +4,6 @@
 MainThread::MainThread(QWidget *parent) : QThread(parent)
 {
 
-    /* for authoresation */
-    //NetworkManager->setCookieJar(NetworkCookie);
-
 }
 
 void MainThread::run(){

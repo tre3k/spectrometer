@@ -41,3 +41,9 @@ double Functions::CodeToWidthChannel(int code){
     }
     return 0.0;
 }
+
+double Functions::LengthWave(double time,double distance){
+    double velo = distance/time;
+    double wave = 2*M_PI*PLANK_CONST/NEUTRON_MASS/velo;  // in metr
+    return wave*1e+10;
+}

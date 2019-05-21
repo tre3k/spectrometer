@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     data_time = new QVector<double>;
     data_channels = new QVector<double>;
     data_counts = new QVector<double>;
+    data_wavelength = new QVector<double>;
 
     /* set TOF channels comboBox */
     ui->comboBoxChannelsTOF->addItem("256");
@@ -118,6 +119,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(settings,SIGNAL(signal_setSettings()),
             this,SLOT(slot_setLogFileNamesFromOptions()));
 
+    /* sync changed x type */
+    connect(mainPlotWindow,SIGNAL(signal_XAxisChanged()),
+            this,SLOT(buildDataOnPlot()));
+
 }
 
 MainWindow::~MainWindow()
@@ -133,7 +138,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::createSpectraWin(){
     mainPlotWindow->generateElements();
-    slot_changesXaxis(mainPlotWindow->channels_time);
     mainPlotWindow->plot->yAxis->setLabel("counts");
 
     slot_setChannels(options->channels);
@@ -170,83 +174,6 @@ void MainWindow::on_actionSettings_triggered()
 
 
 void MainWindow::slot_setChannels(int channels_code){
-    if(mainPlotWindow->xAxieType == X_AXIE_TYPE_CHANNEL){
-        switch(channels_code){
-        case CHANNELS_256:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,256));
-            break;
-        case CHANNELS_512:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,512));
-            break;
-        case CHANNELS_1024:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,1024));
-            break;
-        case CHANNELS_2048:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,2048));
-            break;
-        case CHANNELS_4096:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,4096));
-            break;
-        case CHANNELS_8192:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,8192));
-            break;
-        case CHANNELS_16384:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,16384));
-            break;
-        }
-    }
-
-    if(mainPlotWindow->xAxieType == X_AXIE_TYPE_TIME){
-        switch(channels_code){
-        case CHANNELS_256:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,256));
-            break;
-        case CHANNELS_512:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,512));
-            break;
-        case CHANNELS_1024:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,1024));
-            break;
-        case CHANNELS_2048:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,2048));
-            break;
-        case CHANNELS_4096:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,4096));
-            break;
-        case CHANNELS_8192:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,8192));
-            break;
-        case CHANNELS_16384:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,16384));
-            break;
-        }
-    }
-
-    if(mainPlotWindow->xAxieType == X_AXIE_TYPE_WAVELENGTH){
-        switch(channels_code){
-        case CHANNELS_256:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,256));
-            break;
-        case CHANNELS_512:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,512));
-            break;
-        case CHANNELS_1024:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,1024));
-            break;
-        case CHANNELS_2048:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,2048));
-            break;
-        case CHANNELS_4096:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,4096));
-            break;
-        case CHANNELS_8192:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,8192));
-            break;
-        case CHANNELS_16384:
-            mainPlotWindow->plot->xAxis->setRange(QCPRange(0.0,16384));
-            break;
-        }
-    }
 
     mainPlotWindow->plot->replot();
 }
@@ -287,22 +214,6 @@ void MainWindow::slot_setWidthChannel(int width_code){
     mainPlotWindow->plot->replot();
 }
 
-void MainWindow::slot_changesXaxis(bool state){
-    if(state){
-        mainPlotWindow->plot->xAxis->setLabel("channels");
-        slot_setChannels(ui->comboBoxChannelsTOF->currentIndex());
-    }else{
-        mainPlotWindow->plot->xAxis->setLabel("time, ms");
-        slot_setWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex());
-    }
-    mainPlotWindow->channels_time = state;
-
-    mainPlotWindow->plot->replot();
-    buildDataOnPlot();
-    mainPlotWindow->slot_AutoScale();
-}
-
-
 void MainWindow::buildDataOnPlot(){
     mainPlotWindow->plot->clearGraphs();
     mainPlotWindow->plot->clearPlottables();
@@ -312,15 +223,30 @@ void MainWindow::buildDataOnPlot(){
                                            options->plot_colour_alpha));
     mainPlotWindow->plot->setStyle(options->SpectraPlotType);
 
+    /* anyway form channels array (for log) */
+    data_channels->clear();
+    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++) data_channels->append(i);
+
     switch (mainPlotWindow->xAxieType) {
     case X_AXIE_TYPE_CHANNEL:
         mainPlotWindow->plot->addCurve(data_channels,data_counts,"counts");
         break;
+
     case X_AXIE_TYPE_TIME:
+        data_time->clear();
+        for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
+            data_time->append(Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())*i/1000.0);
+        }
         mainPlotWindow->plot->addCurve(data_time,data_counts,"counts");
         break;
+
     case X_AXIE_TYPE_WAVELENGTH:
-         mainPlotWindow->plot->addCurve(data_wavelength,data_counts,"counts");
+        data_wavelength->clear();
+        for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
+            double time = Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())*1e-6*i;
+            data_wavelength->append(Functions::LengthWave(time,options->distance));
+        }
+        mainPlotWindow->plot->addCurve(data_wavelength,data_counts,"counts");
         break;
     }
 
@@ -346,6 +272,9 @@ void MainWindow::slot_Start(){
     QUrlQuery query;
     int channels_code = 1;
     int widht_code = 2;
+
+    ui->comboBoxChannelsTOF->setDisabled(true);
+    ui->comboBoxWidthChannelTOF->setDisabled(true);
 
     switch (ui->comboBoxChannelsTOF->currentIndex()) {
     case CHANNELS_256:
@@ -405,8 +334,6 @@ void MainWindow::slot_Start(){
     logfiles->write("\tchannels: "+ui->comboBoxChannelsTOF->currentText());
     logfiles->write("\twidth of channel: "+ui->comboBoxWidthChannelTOF->currentText());
     logfiles->setDataFileName(options->username);
-    qDebug() << logfiles->datafilename;
-
 }
 
 void MainWindow::slot_Stop(){
@@ -415,6 +342,9 @@ void MainWindow::slot_Stop(){
     server->Request("stop",query);
     logfiles->writeDate();
     logfiles->write("Stop measurement\n");
+
+    ui->comboBoxChannelsTOF->setDisabled(false);
+    ui->comboBoxWidthChannelTOF->setDisabled(false);
 }
 
 void MainWindow::slot_ReadMem(){
@@ -424,7 +354,7 @@ void MainWindow::slot_ReadMem(){
     server->Request("readmem",query);
 }
 
-/* slot for readMem */
+/* slot for reply from server */
 void MainWindow::slot_reply(QByteArray content){
     QStringList lst = QString(content).split('\n');
 
@@ -438,7 +368,6 @@ void MainWindow::slot_reply(QByteArray content){
 
         logfiles->saveData("# Width of channel: "+ui->comboBoxWidthChannelTOF->currentText()+"\n# channel\tcounts\n",
                            data_channels,data_counts);
-
     }
 
     if(lst.at(0)=="start"){
@@ -468,12 +397,6 @@ void MainWindow::on_pushButtonTOFStart_clicked()
     data_time->clear();
     data_channels->clear();
 
-    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
-        data_channels->append(i);
-        data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
-        // add herer data_wavelength->... data_time conver to speed and calculate waveleng
-    }
-
     threadParameters->data_counts = data_counts;
     threadParameters->cycles = ui->spinBoxCyclesTOF->value();
     progressBar->setRange(0,threadParameters->cycles-1);
@@ -500,10 +423,8 @@ void MainWindow::on_actionRead_data_triggered()
 {
     data_channels->clear();
     data_time->clear();
-    for(int i=0;i<Functions::CodeToChannel(ui->comboBoxChannelsTOF->currentIndex());i++){
-        data_channels->append(i);
-        data_time->append(i*Functions::CodeToWidthChannel(ui->comboBoxWidthChannelTOF->currentIndex())/1000);
-    }
+    data_wavelength->clear();
+
     slot_ReadMem();
 }
 

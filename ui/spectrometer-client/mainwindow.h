@@ -73,7 +73,6 @@ public slots:
 private slots:
     void slot_setChannels(int);
     void slot_setWidthChannel(int);
-    void slot_changesXaxis(bool);
     void slot_dataCountDone();
     void slot_ReadMem();
     void slot_Init();
