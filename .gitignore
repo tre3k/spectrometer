@@ -3,3 +3,4 @@ other/
 ui/build-spectrometer-client-Desktop-Debug/
 ui/spectrometer-client/spectrometer-client.pro.user
 server/server.iml
+ui/spectrometer-client/build
