@@ -74,7 +74,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /* Logfiles class init */
     logfiles = new Logfiles();
-    logfiles->logfilename = QDir::toNativeSeparators(options->logpath+"/"+options->username+".log");
+    logfiles->logpath = options->logpath;
+    logfiles->logfilename = options->username+".log";
 
     /* connect signals and slots */
     connect(ui->comboBoxChannelsTOF,SIGNAL(currentIndexChanged(int)),
@@ -114,6 +115,9 @@ MainWindow::MainWindow(QWidget *parent) :
     /* sync settings set and rebuild plot */
     connect(settings,SIGNAL(signal_setSettings()),
             this,SLOT(buildDataOnPlot()));
+    connect(settings,SIGNAL(signal_setSettings()),
+            this,SLOT(slot_setLogFileNamesFromOptions()));
+
 }
 
 MainWindow::~MainWindow()
@@ -397,9 +401,12 @@ void MainWindow::slot_Start(){
     server->Request("start",query);
     logfiles->writeDate();
     logfiles->write("Start measurement");
-    logfiles->write("\tURL: "+options->host);
+    logfiles->write("\tURL: "+options->host+"start"+"?"+query.toString().toLocal8Bit());
     logfiles->write("\tchannels: "+ui->comboBoxChannelsTOF->currentText());
     logfiles->write("\twidth of channel: "+ui->comboBoxWidthChannelTOF->currentText());
+    logfiles->setDataFileName(options->username);
+    qDebug() << logfiles->datafilename;
+
 }
 
 void MainWindow::slot_Stop(){
@@ -407,7 +414,7 @@ void MainWindow::slot_Stop(){
     QUrlQuery query;
     server->Request("stop",query);
     logfiles->writeDate();
-    logfiles->write("Stop measurement");
+    logfiles->write("Stop measurement\n");
 }
 
 void MainWindow::slot_ReadMem(){
@@ -428,6 +435,10 @@ void MainWindow::slot_reply(QByteArray content){
             data_counts->append(QString(lst.at(i)).toDouble());
         }
         slot_dataCountDone();
+
+        logfiles->saveData("# Width of channel: "+ui->comboBoxWidthChannelTOF->currentText()+"\n# channel\tcounts\n",
+                           data_channels,data_counts);
+
     }
 
     if(lst.at(0)=="start"){
@@ -501,4 +512,7 @@ void MainWindow::on_actionInit_device_triggered()
     slot_Init();
 }
 
-
+void MainWindow::slot_setLogFileNamesFromOptions(){
+    logfiles->logpath = options->logpath;
+    logfiles->logfilename = options->username+".log";
+}

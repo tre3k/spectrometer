@@ -19,5 +19,7 @@
         <file>icons/png.svg</file>
         <file>icons/jpg.svg</file>
         <file>icons/txt.svg</file>
+        <file>icons/books.svg</file>
+        <file>icons/space-rocket.png</file>
     </qresource>
 </RCC>

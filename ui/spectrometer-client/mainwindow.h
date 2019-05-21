@@ -80,6 +80,7 @@ private slots:
     void slot_Start();
     void slot_Stop();
     void slot_reply(QByteArray);
+    void slot_setLogFileNamesFromOptions();
 
 
 private slots:

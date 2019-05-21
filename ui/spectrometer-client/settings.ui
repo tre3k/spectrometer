@@ -34,7 +34,7 @@
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Server settings</string>
+        <string>General settings</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab_2">
