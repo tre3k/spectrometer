@@ -3,6 +3,7 @@
 Logfiles::Logfiles(QObject *parent) : QObject(parent)
 {
    logstream.setDevice(&logfile);
+   logstream.setCodec(CHARSET_LOGFILES);
 }
 
 void Logfiles::writeDate(){
@@ -19,7 +20,7 @@ void Logfiles::write(QString str){
     if(!QDir(logpath).exists()) QDir().mkdir(logpath);
     logfile.setFileName(QDir::toNativeSeparators(logpath+"/"+logfilename));
     logfile.open(QIODevice::WriteOnly | QIODevice::Append);
-    logstream << str << "\n";
+    logstream << str << "\r\n";
     logfile.close();
     return;
 }
@@ -32,12 +33,13 @@ void Logfiles::setDataFileName(QString prefix){
 void Logfiles::saveData(QString title,QVector<double> *dat1,QVector<double> *dat2){
     if(!QDir(logpath).exists()) QDir().mkdir(logpath);
     QTextStream stream(&datafile);
+    stream.setCodec(CHARSET_LOGFILES);
     datafile.setFileName(QDir::toNativeSeparators(logpath+"/"+datafilename));
     datafile.open(QIODevice::WriteOnly);
 
-    stream << title << "\n";
+    stream << title << "\r\n";
     for(int i=0;i<dat2->size();i++){
-        stream << QString::number(dat1->at(i)) << "\t" << QString::number(dat2->at(i)) << "\n";
+        stream << QString::number(dat1->at(i)) << "\t" << QString::number(dat2->at(i)) << "\r\n";
     }
 
     datafile.close();

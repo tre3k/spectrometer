@@ -8,6 +8,8 @@
 #include <QVector>
 #include <QDir>
 
+#define CHARSET_LOGFILES "UTF-8"
+
 class Logfiles : public QObject
 {
     Q_OBJECT
@@ -16,7 +18,6 @@ private:
     QFile logfile;
     QFile datafile;
     QTextStream logstream;
-
 
     QDateTime dt;
 

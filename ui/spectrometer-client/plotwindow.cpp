@@ -148,10 +148,12 @@ void PlotWindow::slot_ExportTXT(){
     QFile f(filename);
     f.open(QIODevice::WriteOnly);
     QTextStream txtStream(&f);
+    txtStream.setCodec("UTF-8");
+    txtStream << "# " << plot->xAxis->label() << "\t" << plot->yAxis->label() << "\r\n";
     for(int num=0;num<plot->graphCount();num++){
         for(int i=0;i<plot->graph(num)->data()->size();i++){
             txtStream << QString::number(plot->graph(num)->data()->at(i)->key) << "\t"
-                      << QString::number(plot->graph(num)->data()->at(i)->value) << "\n";
+                      << QString::number(plot->graph(num)->data()->at(i)->value) << "\r\n";
         }
     }
     f.close();

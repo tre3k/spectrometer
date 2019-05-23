@@ -370,9 +370,9 @@ void MainWindow::slot_reply(QByteArray content){
         }
         slot_dataCountDone();
 
-        logfiles->saveData("# Width of channel: "+ui->comboBoxWidthChannelTOF->currentText()+"\n"
-                           "# distance chooper to detector: "+QString::number(options->distance)+" m \n"
-                           "# channel\tcounts\n",
+        logfiles->saveData("# Width of channel: "+ui->comboBoxWidthChannelTOF->currentText()+"\r\n"
+                           "# distance chooper to detector: "+QString::number(options->distance)+" m \r\n"
+                           "# channel\tcounts\r\n",
                            data_channels,data_counts);
     }
 
