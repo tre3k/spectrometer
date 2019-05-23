@@ -17,6 +17,7 @@
 #define XML_DTD "<!DOCTYPE spectrometer-client>"
 #define XML_START "options"
 #define XML_HOST "host"
+#define XML_DISTANCE "distance_dc"
 #define XML_USERNAME "username"
 #define XML_LOGPATH "logpath"
 #define XML_CHANNELS "channels"
@@ -24,6 +25,7 @@
 #define XML_CYCLES "cycles"
 #define XML_TIME_OF_CYCLES "time_of_cycles"
 #define XML_SPECRA_PLOT_STYLE "spector_plot_style"
+#define XML_X_AXYS_TYPE "x_axis_type"
 
 #define XML_PLOT_COLOUR_R "plot_colour_r"
 #define XML_PLOT_COLOUR_G "plot_colour_g"
@@ -70,7 +72,8 @@ public:
     int cycles;
     double time_of_cycles;
 
-    double distance = 2.0;
+    double distance;
+    int xTypeAxis;
 
 public:
     Options();

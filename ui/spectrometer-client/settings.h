@@ -50,6 +50,8 @@ private:
         QHBoxLayout logfileLayout;
         QLineEdit lineLogFile;
         QPushButton buttonLogFile;
+
+        QDoubleSpinBox spinBoxDistance;
     } urlWidget;
 
     QColorDialog *colorDialog;

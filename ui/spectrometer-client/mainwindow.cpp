@@ -58,8 +58,10 @@ MainWindow::MainWindow(QWidget *parent) :
     mainPlotWindow->setWindowIcon(QIcon(":/icons/graph.svg"));
     mainPlotWindow->setGeometry(20,20,800,600);
     mainPlotWindow->setMinimumSize(400,300);
+    mainPlotWindow->xAxieType = options->xTypeAxis;
     createSpectraWin();
     mdiArea->addSubWindow(mainPlotWindow);
+    mainPlotWindow->changesXAxieTyepe(options->xTypeAxis);
 
     /* set progressBar */
     progressBar = new QProgressBar();
@@ -131,6 +133,7 @@ MainWindow::~MainWindow()
     options->width_channel = ui->comboBoxWidthChannelTOF->currentIndex();
     options->channels = ui->comboBoxChannelsTOF->currentIndex();
     options->time_of_cycles = ui->doubleSpinBoxTimeOfCycleTOF->value();
+    options->xTypeAxis = mainPlotWindow->xAxieType;
 
     options->saveOptions();
     delete ui;
@@ -333,6 +336,7 @@ void MainWindow::slot_Start(){
     logfiles->write("\tURL: "+options->host+"start"+"?"+query.toString().toLocal8Bit());
     logfiles->write("\tchannels: "+ui->comboBoxChannelsTOF->currentText());
     logfiles->write("\twidth of channel: "+ui->comboBoxWidthChannelTOF->currentText());
+    logfiles->write("\tcycles: "+QString::number(ui->spinBoxCyclesTOF->value()));
     logfiles->setDataFileName(options->username);
 }
 
@@ -366,7 +370,9 @@ void MainWindow::slot_reply(QByteArray content){
         }
         slot_dataCountDone();
 
-        logfiles->saveData("# Width of channel: "+ui->comboBoxWidthChannelTOF->currentText()+"\n# channel\tcounts\n",
+        logfiles->saveData("# Width of channel: "+ui->comboBoxWidthChannelTOF->currentText()+"\n"
+                           "# distance chooper to detector: "+options->distance+"\n"
+                           "# channel\tcounts\n",
                            data_channels,data_counts);
     }
 

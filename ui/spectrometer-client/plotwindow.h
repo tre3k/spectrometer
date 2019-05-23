@@ -49,16 +49,17 @@ public:
     QAction *actionChannels;
     QAction *actionChannels_time;
     QAction *actionChannels_lambda;
+
 private:
     QAction *actionAxis_x_log_scale;
     QMenu *menuAxis_y;
     QAction *actionAxis_y_log_scale;
     QAction *actionAutoScale;
 
-    void changesXAxieTyepe(int type);
 
 public:
     void generateElements();
+    void changesXAxieTyepe(int type);
 
 private slots:
     void slot_CloseThis();

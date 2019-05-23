@@ -6,6 +6,7 @@ Logfiles::Logfiles(QObject *parent) : QObject(parent)
 }
 
 void Logfiles::writeDate(){
+    if(!QDir(logpath).exists()) QDir().mkdir(logpath);
     logfile.setFileName(QDir::toNativeSeparators(logpath+"/"+logfilename));
     logfile.open(QIODevice::WriteOnly | QIODevice::Append);
     logstream << dt.currentDateTime().date().toString() << " "
@@ -15,6 +16,7 @@ void Logfiles::writeDate(){
 }
 
 void Logfiles::write(QString str){
+    if(!QDir(logpath).exists()) QDir().mkdir(logpath);
     logfile.setFileName(QDir::toNativeSeparators(logpath+"/"+logfilename));
     logfile.open(QIODevice::WriteOnly | QIODevice::Append);
     logstream << str << "\n";
@@ -28,6 +30,7 @@ void Logfiles::setDataFileName(QString prefix){
 }
 
 void Logfiles::saveData(QString title,QVector<double> *dat1,QVector<double> *dat2){
+    if(!QDir(logpath).exists()) QDir().mkdir(logpath);
     QTextStream stream(&datafile);
     datafile.setFileName(QDir::toNativeSeparators(logpath+"/"+datafilename));
     datafile.open(QIODevice::WriteOnly);

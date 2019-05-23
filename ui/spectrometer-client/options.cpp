@@ -7,16 +7,22 @@ Options::Options()
     width_channel = WIDTH_CHANNEL_1p0;
     cycles = 100;
     time_of_cycles = 1;
-    SpectraPlotType = PLOT_STYLE_BARS;
+    SpectraPlotType = PLOT_STYLE_LINE_WITH_BRUSH;
 
     host="http://localhost:8080/";
-    logpath=QDir::homePath();
+    logpath=QDir::homePath()+"/spectrometer-logs";
+
+    username = "user";
 
 
     plot_colour_r = 20;
     plot_colour_g = 100;
     plot_colour_b = 50;
-    plot_colour_alpha = 200;
+    plot_colour_alpha = 255;
+
+    distance = 5.0;
+
+    xTypeAxis = 0;
 
     loadOptions();
 }
@@ -56,6 +62,8 @@ void Options::loadOptions(){
             if(xml.name()==XML_PLOT_COLOUR_G) plot_colour_g = xml.readElementText().toInt();
             if(xml.name()==XML_PLOT_COLOUR_B) plot_colour_b = xml.readElementText().toInt();
             if(xml.name()==XML_PLOT_COLOUR_ALPHA) plot_colour_alpha = xml.readElementText().toInt();
+            if(xml.name()==XML_DISTANCE) distance = xml.readElementText().toDouble();
+            if(xml.name()==XML_X_AXYS_TYPE) xTypeAxis = xml.readElementText().toInt();
         }
     }
 
@@ -84,7 +92,8 @@ void Options::saveOptions(){
     xml.writeTextElement(XML_PLOT_COLOUR_G,QString::number(plot_colour_g));
     xml.writeTextElement(XML_PLOT_COLOUR_B,QString::number(plot_colour_b));
     xml.writeTextElement(XML_PLOT_COLOUR_ALPHA,QString::number(plot_colour_alpha));
-
+    xml.writeTextElement(XML_DISTANCE,QString::number(distance));
+    xml.writeTextElement(XML_X_AXYS_TYPE,QString::number(xTypeAxis));
     xml.writeEndElement();
     xml.writeEndDocument();
 

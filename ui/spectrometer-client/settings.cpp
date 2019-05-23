@@ -19,6 +19,12 @@ Settings::Settings(QWidget *parent) :
     urlWidget.logfileLayout.addWidget(&urlWidget.buttonLogFile);
     urlWidget.layout.addRow("Log files path: ",&urlWidget.logfileLayout);
 
+    urlWidget.spinBoxDistance.setSingleStep(1.0);
+    urlWidget.spinBoxDistance.setDecimals(3);
+    urlWidget.spinBoxDistance.setSuffix(" m");
+    urlWidget.spinBoxDistance.setRange(0.0,999.99);
+    urlWidget.layout.addRow("Distance detector to chooper: ",&urlWidget.spinBoxDistance);
+
     ui->tab->setLayout(&urlWidget.layout);
 
 
@@ -99,6 +105,7 @@ void Settings::slot_recvOptions(Options *o){
     urlWidget.lineEditURL.setText(localOptions.host);
     urlWidget.lineuserName.setText(localOptions.username);
     urlWidget.lineLogFile.setText(localOptions.logpath);
+    urlWidget.spinBoxDistance.setValue(localOptions.distance);
 
 
     /* Plot */
@@ -116,6 +123,7 @@ void Settings::on_pushButtonOk_clicked()
     localOptions.host = urlWidget.lineEditURL.text();
     localOptions.logpath = urlWidget.lineLogFile.text();
     localOptions.username = urlWidget.lineuserName.text();
+    localOptions.distance = urlWidget.spinBoxDistance.value();
 
     *options = localOptions;
     emit signal_setSettings();
