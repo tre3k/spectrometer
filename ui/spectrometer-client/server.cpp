@@ -17,7 +17,7 @@ void Server::setURL(QString url){
 
 void Server::Request(QString page, QUrlQuery params){
     QNetworkRequest request(QUrl(mainURL+page));
-    //request.setHeader(QNetworkRequest::ContentTypeHeader, "some/type");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     manager->post(request,params.toString().toLocal8Bit());
 }
 

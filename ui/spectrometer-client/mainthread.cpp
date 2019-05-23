@@ -34,5 +34,5 @@ void MainThread::slot_recvParameters(ThreadParameters *p){
 
 void MainThread::slot_reply(QByteArray content){
     busy = false;
-    qDebug() << "reply recived";
+
 }

@@ -16,6 +16,8 @@
 
 #define XML_DTD "<!DOCTYPE spectrometer-client>"
 #define XML_START "options"
+
+#define XML_TOF "tof_options"
 #define XML_HOST "host"
 #define XML_DISTANCE "distance_dc"
 #define XML_USERNAME "username"
@@ -32,6 +34,20 @@
 #define XML_PLOT_COLOUR_B "plot_colour_b"
 #define XML_PLOT_COLOUR_ALPHA "plot_colour_alpha"
 
+#define XML_TOOLBAR "toolbar"
+#define XML_TOF_DOCK "TOFDocWidget"
+
+#define XML_GEOMETRY_X "x"
+#define XML_GEOMETRY_Y "y"
+#define XML_GEOMETRY_WIDTH "width"
+#define XML_GEOMETRY_HEIGHT "height"
+
+
+enum{
+    XMLS_TOF_OPTIONS,
+    XMLS_TOOLBAR,
+    XMLS_TOF_DOCK
+};
 
 enum{
     CHANNELS_256,
@@ -74,6 +90,9 @@ public:
 
     double distance;
     int xTypeAxis;
+
+    QRect geometryToolBar;
+    QRect geometryTOFWidget;
 
 public:
     Options();

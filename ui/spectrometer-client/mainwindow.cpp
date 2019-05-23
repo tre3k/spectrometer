@@ -80,6 +80,12 @@ MainWindow::MainWindow(QWidget *parent) :
     logfiles->logpath = options->logpath;
     logfiles->logfilename = options->username+".log";
 
+
+    /* set geometry widgets */
+    ui->mainToolBar->setGeometry(options->geometryToolBar);
+    ui->dockWidgetTOF->setGeometry(options->geometryTOFWidget);
+
+
     /* connect signals and slots */
     connect(ui->comboBoxChannelsTOF,SIGNAL(currentIndexChanged(int)),
             this,SLOT(slot_setChannels(int)));
@@ -135,7 +141,11 @@ MainWindow::~MainWindow()
     options->time_of_cycles = ui->doubleSpinBoxTimeOfCycleTOF->value();
     options->xTypeAxis = mainPlotWindow->xAxieType;
 
+    options->geometryToolBar = ui->mainToolBar->geometry();
+    options->geometryTOFWidget = ui->dockWidgetTOF->geometry();
+
     options->saveOptions();
+
     delete ui;
 }
 
@@ -363,7 +373,6 @@ void MainWindow::slot_reply(QByteArray content){
     QStringList lst = QString(content).split('\n');
 
     if(lst.at(0)=="readmem"){
-        qDebug () << "reply readmem";
         data_counts->clear();
         for(int i=1;i<lst.size()-1;i++){
             data_counts->append(QString(lst.at(i)).toDouble());
@@ -377,23 +386,22 @@ void MainWindow::slot_reply(QByteArray content){
     }
 
     if(lst.at(0)=="start"){
-        qDebug () << "reply start";
+
     }
 
     if(lst.at(0)=="stop"){
-        qDebug () << "reply stop";
+
         progressBar->setMaximum(1);
         progressBar->setValue(1);
     }
 
     if(lst.at(0)=="init"){
-        qDebug () << "reply init";
+
     }
 }
 
 void MainWindow::on_actionConnect_triggered()
 {
-
 
 }
 
