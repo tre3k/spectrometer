@@ -143,6 +143,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mainPlotWindow,SIGNAL(signal_XAxisChanged()),
             this,SLOT(buildDataOnPlot()));
 
+    this->showMaximized();
+
 }
 
 MainWindow::~MainWindow()
