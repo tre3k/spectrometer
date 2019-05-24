@@ -81,9 +81,21 @@ MainWindow::MainWindow(QWidget *parent) :
     logfiles->logfilename = options->username+".log";
 
 
-    /* set geometry widgets */
+    /* restory geometry widgets */
+    removeToolBar(ui->mainToolBar);
+    addToolBar(options->toolBarArea,ui->mainToolBar);
+
+    ui->mainToolBar->show();
+
+    removeDockWidget(ui->dockWidgetTOF);
+    addDockWidget(options->dockWidgetAreaTOF,ui->dockWidgetTOF);
+    ui->dockWidgetTOF->show();
+
     ui->mainToolBar->setGeometry(options->geometryToolBar);
     ui->dockWidgetTOF->setGeometry(options->geometryTOFWidget);
+
+    ui->mainToolBar->setHidden(!options->showToolBar);
+    ui->dockWidgetTOF->setHidden(!options->showDockTOF);
 
 
     /* connect signals and slots */
@@ -142,10 +154,16 @@ MainWindow::~MainWindow()
     options->xTypeAxis = mainPlotWindow->xAxieType;
 
     options->geometryToolBar = ui->mainToolBar->geometry();
+    options->toolBarArea = this->toolBarArea(ui->mainToolBar);
     options->geometryTOFWidget = ui->dockWidgetTOF->geometry();
+    options->dockWidgetAreaTOF = this->dockWidgetArea(ui->dockWidgetTOF);
+
+    options->showToolBar = !ui->mainToolBar->isHidden();
+    options->floatingToolBar = ui->mainToolBar->isFloating();
+    options->showDockTOF = !ui->dockWidgetTOF->isHidden();
+    options->floatingDockTOF = ui->dockWidgetTOF->isFloating();
 
     options->saveOptions();
-
     delete ui;
 }
 

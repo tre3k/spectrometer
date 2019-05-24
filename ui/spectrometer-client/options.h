@@ -41,6 +41,10 @@
 #define XML_GEOMETRY_Y "y"
 #define XML_GEOMETRY_WIDTH "width"
 #define XML_GEOMETRY_HEIGHT "height"
+#define XML_TOOLBAR_AREA "area"
+#define XML_DOCK_WIDGET_AREA XML_TOOLBAR_AREA
+#define XML_SHOW "show"
+#define XML_FLOATING "floating"
 
 
 enum{
@@ -92,7 +96,13 @@ public:
     int xTypeAxis;
 
     QRect geometryToolBar;
+    Qt::ToolBarArea toolBarArea;
     QRect geometryTOFWidget;
+    Qt::DockWidgetArea dockWidgetAreaTOF;
+    bool floatingToolBar;
+    bool showToolBar;
+    bool floatingDockTOF;
+    bool showDockTOF;
 
 public:
     Options();

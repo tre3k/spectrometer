@@ -24,6 +24,14 @@ Options::Options()
 
     xTypeAxis = 0;
 
+    toolBarArea = Qt::TopToolBarArea;
+    dockWidgetAreaTOF = Qt::RightDockWidgetArea;
+
+    showDockTOF = true;
+    showToolBar = true;
+    floatingDockTOF = false;
+    floatingToolBar = false;
+
     loadOptions();
 }
 
@@ -78,6 +86,9 @@ void Options::loadOptions(){
                 if(xml.name()==XML_GEOMETRY_Y) geometryToolBar.setY(xml.readElementText().toInt());
                 if(xml.name()==XML_GEOMETRY_WIDTH) geometryToolBar.setWidth(xml.readElementText().toInt());
                 if(xml.name()==XML_GEOMETRY_HEIGHT) geometryToolBar.setHeight(xml.readElementText().toInt());
+                if(xml.name()==XML_TOOLBAR_AREA) toolBarArea = (Qt::ToolBarArea) xml.readElementText().toInt();
+                if(xml.name()==XML_FLOATING) xml.readElementText().toInt() ? floatingToolBar = true : floatingToolBar = false;
+                if(xml.name()==XML_SHOW) xml.readElementText().toInt() ? showToolBar = true : showToolBar = false;
                 break;
 
             case XMLS_TOF_DOCK:
@@ -85,6 +96,9 @@ void Options::loadOptions(){
                 if(xml.name()==XML_GEOMETRY_Y) geometryTOFWidget.setY(xml.readElementText().toInt());
                 if(xml.name()==XML_GEOMETRY_WIDTH) geometryTOFWidget.setWidth(xml.readElementText().toInt());
                 if(xml.name()==XML_GEOMETRY_HEIGHT) geometryTOFWidget.setHeight(xml.readElementText().toInt());
+                if(xml.name()==XML_DOCK_WIDGET_AREA) dockWidgetAreaTOF = (Qt::DockWidgetArea) xml.readElementText().toInt();
+                if(xml.name()==XML_FLOATING) xml.readElementText().toInt() ? floatingDockTOF = true : floatingDockTOF = false;
+                if(xml.name()==XML_SHOW) xml.readElementText().toInt() ? showDockTOF = true : showDockTOF = false;
                 break;
             }
         }
@@ -128,6 +142,9 @@ void Options::saveOptions(){
     xml.writeTextElement(XML_GEOMETRY_Y,QString::number(geometryToolBar.y()));
     xml.writeTextElement(XML_GEOMETRY_WIDTH,QString::number(geometryToolBar.width()));
     xml.writeTextElement(XML_GEOMETRY_HEIGHT,QString::number(geometryToolBar.height()));
+    xml.writeTextElement(XML_TOOLBAR_AREA,QString::number(toolBarArea));
+    if(floatingToolBar) xml.writeTextElement(XML_FLOATING,"1"); else xml.writeTextElement(XML_FLOATING,"0");
+    if(showToolBar) xml.writeTextElement(XML_SHOW,"1"); else xml.writeTextElement(XML_SHOW,"0");
     xml.writeEndElement();
 
     xml.writeStartElement(XML_TOF_DOCK);
@@ -135,6 +152,9 @@ void Options::saveOptions(){
     xml.writeTextElement(XML_GEOMETRY_Y,QString::number(geometryTOFWidget.y()));
     xml.writeTextElement(XML_GEOMETRY_WIDTH,QString::number(geometryTOFWidget.width()));
     xml.writeTextElement(XML_GEOMETRY_HEIGHT,QString::number(geometryTOFWidget.height()));
+    xml.writeTextElement(XML_DOCK_WIDGET_AREA,QString::number(dockWidgetAreaTOF));
+    if(floatingDockTOF) xml.writeTextElement(XML_FLOATING,"1"); else xml.writeTextElement(XML_FLOATING,"0");
+    if(showDockTOF) xml.writeTextElement(XML_SHOW,"1"); else xml.writeTextElement(XML_SHOW,"0");
     xml.writeEndElement();
 
     xml.writeEndElement(); //XML_START
