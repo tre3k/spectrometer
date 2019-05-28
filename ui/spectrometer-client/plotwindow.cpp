@@ -77,6 +77,11 @@ void PlotWindow::generateElements(){
     actionAutoScale = new QAction("Auto scale");
     menuAxes->addAction(actionAutoScale);
 
+    menuAnalyze = new QMenu("&Analyze");
+    menuBar->addMenu(menuAnalyze);
+    actionFoundMaximum = new QAction("Found maximum");
+    menuAnalyze->addAction(actionFoundMaximum);
+
 
     /* Set menu bar and widget on layout */
     plot = new Plot(this);
@@ -112,6 +117,9 @@ void PlotWindow::generateElements(){
             this,SLOT(slot_xAxie_time()));
     connect(actionChannels_lambda,SIGNAL(triggered()),
             this,SLOT(slot_xAxie_wavelength()));
+
+    connect(actionFoundMaximum,SIGNAL(triggered()),
+            this,SLOT(slot_FoundMaximum()));
 }
 
 void PlotWindow::slot_AxisXLogScale(bool value){
@@ -214,6 +222,7 @@ void PlotWindow::changesXAxieTyepe(int type){
     }
     this->plot->replot();
 
+    slot_AutoScale();
     emit signal_XAxisChanged();
 }
 
@@ -223,4 +232,38 @@ void PlotWindow::slot_xAxie_wavelength(){changesXAxieTyepe(X_AXIE_TYPE_WAVELENGT
 
 void PlotWindow::slot_replot(){
     this->plot->replot();
+}
+
+void PlotWindow::slot_FoundMaximum(){
+    plot->clearItems();
+    double x = 0,y = 0;
+
+    for(int num=0;num<plot->graphCount();num++){
+        for(int i=0;i<plot->graph(num)->data()->size();i++){
+            if(y<plot->graph(num)->data()->at(i)->value){
+                y = plot->graph(num)->data()->at(i)->value;
+                x = plot->graph(num)->data()->at(i)->key;
+            }
+        }
+    }
+
+    //qDebug() << x << " " << y;
+    QCPItemText *maximumText = new QCPItemText(plot);
+    maximumText->setText("peak: ("+QString::number(x)+", "+QString::number(y)+")");
+    maximumText->setColor("black");
+    maximumText->position->setCoords(x,y+20);
+
+    // need traicer!
+    QCPItemCurve *maximumCurve = new QCPItemCurve(plot);
+    maximumCurve->start->setParentAnchor(maximumText->right);
+    maximumCurve->startDir->setParentAnchor(maximumText->right);
+    //maximumCurve->startDir->setCoords(-1,0);
+    maximumCurve->end->setCoords(x,y);
+    maximumCurve->endDir->setCoords(x+x/10,y+y/10);
+    maximumCurve->setHead(QCPLineEnding::esSpikeArrow);
+    maximumCurve->setTail(QCPLineEnding(QCPLineEnding::esBar, (maximumText->bottom->pixelPosition().y()-maximumText->top->pixelPosition().y())*0.85));
+
+    plot->yAxis->setRange(0,y+30);
+    plot->replot();
+
 }

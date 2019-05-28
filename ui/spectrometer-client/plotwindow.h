@@ -56,6 +56,9 @@ private:
     QAction *actionAxis_y_log_scale;
     QAction *actionAutoScale;
 
+    QMenu *menuAnalyze;
+    QAction *actionFoundMaximum;
+
 
 public:
     void generateElements();
@@ -74,6 +77,8 @@ private slots:
     void slot_xAxie_channels();
     void slot_xAxie_time();
     void slot_xAxie_wavelength();
+
+    void slot_FoundMaximum();
 
 public slots:
     void slot_AutoScale();

@@ -24,6 +24,8 @@ public:
     Plot(QWidget *parent = 0);
     void addCurve(QVector<double> *,QVector<double> *,QString name="");
 
+    bool autoscale = true;
+
     void setTitle(QString title);
     void setStyle(int value);
     void setColour(QColor value);

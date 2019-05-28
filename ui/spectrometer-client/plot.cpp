@@ -37,19 +37,19 @@ void Plot::addCurve(QVector<double> *x, QVector<double> *y, QString name){
         graph = this->addGraph();
         graph->setPen(QPen(QColor(color),2,Qt::SolidLine,Qt::SquareCap,Qt::BevelJoin));
         graph->setData(*x,*y);
-        this->rescaleAxes(true);
+        this->rescaleAxes(autoscale);
         break;
     case PLOT_STYLE_POINTS:
         graph = this->addGraph();
         graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,color,color,5));
         graph->setPen(QPen(QColor(color),1,Qt::NoPen,Qt::SquareCap,Qt::BevelJoin));
         graph->setData(*x,*y);
-        this->rescaleAxes(true);
+        this->rescaleAxes(autoscale);
         break;
     case PLOT_STYLE_BARS:
         bars = new QCPBars(this->xAxis,this->yAxis);
         bars->setData(*x,*y);
-        this->rescaleAxes(true);
+        this->rescaleAxes(autoscale);
         if(x->size()!=0) bars->setWidth(0.8*x->at(x->size()-1)/x->size());
         bars->setPen(Qt::NoPen);
         bars->setBrush(color);
@@ -57,7 +57,7 @@ void Plot::addCurve(QVector<double> *x, QVector<double> *y, QString name){
     case PLOT_STYLE_POINT_WITH_BARS:
         bars = new QCPBars(this->xAxis,this->yAxis);
         bars->setData(*x,*y);
-        this->rescaleAxes(true);
+        this->rescaleAxes(autoscale);
         if(x->size()!=0) bars->setWidth(0.8*x->at(x->size()-1)/x->size());
         bars->setPen(Qt::NoPen);
         bars->setBrush(color);
@@ -72,7 +72,7 @@ void Plot::addCurve(QVector<double> *x, QVector<double> *y, QString name){
         color.setAlpha(color.alpha()/2);
         graph->setBrush(QBrush(color));
         graph->setData(*x,*y);
-        this->rescaleAxes(true);
+        this->rescaleAxes(autoscale);
         break;
     }
 
