@@ -471,3 +471,10 @@ void MainWindow::slot_setLogFileNamesFromOptions(){
     logfiles->logpath = options->logpath;
     logfiles->logfilename = options->username+".log";
 }
+
+void MainWindow::on_actionDocumentation_triggered()
+{
+    if(!QDir("docs").exists()) QDir().mkdir("docs");
+    if(!QFile("docs/spectrometer-ru.pdf").exists()) QFile::copy(":/docs/spectrometer-ru.pdf","docs/spectrometer-ru.pdf");
+    QDesktopServices::openUrl(QUrl("docs/spectrometer-ru.pdf",QUrl::TolerantMode));
+}

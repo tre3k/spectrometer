@@ -100,6 +100,8 @@ private slots:
     void on_actionInit_device_triggered();
 
     
+    void on_actionDocumentation_triggered();
+
 signals:
     void signal_sendParametersToThread(ThreadParameters *p);
     void signal_sendOptions(Options *);

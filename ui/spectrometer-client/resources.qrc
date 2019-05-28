@@ -21,5 +21,6 @@
         <file>icons/txt.svg</file>
         <file>icons/books.svg</file>
         <file>icons/space-rocket.png</file>
+        <file>docs/spectrometer-ru.pdf</file>
     </qresource>
 </RCC>
